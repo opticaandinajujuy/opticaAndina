@@ -7,7 +7,6 @@ import AdminLogin from './pages/admin/AdminLogin.jsx';
 import AdminDashboard from './pages/admin/AdminDashboard.jsx';
 import AdminProducts from './pages/admin/AdminProducts.jsx';
 import AdminQuotes from './pages/admin/AdminQuotes.jsx';
-import AdminBrands from './pages/admin/AdminBrands.jsx';
 import ProtectedRoute from './components/admin/ProtectedRoute.jsx';
 import WhatsAppButton from './components/layout/WhatsAppButton.jsx';
 import BottomNav from './components/layout/BottomNav.jsx';
@@ -62,14 +61,6 @@ function App() {
             element={
               <ProtectedRoute>
                 <Page><AdminQuotes /></Page>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/marcas"
-            element={
-              <ProtectedRoute>
-                <Page><AdminBrands /></Page>
               </ProtectedRoute>
             }
           />
