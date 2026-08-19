@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowDown, Glasses } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 import { fadeInUp, staggerChildren } from '../../hooks/useScrollAnimation.js';
 
 function Hero() {
@@ -74,9 +74,9 @@ function Hero() {
               href="#catalogo"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.96 }}
-              className="flex items-center gap-2 rounded-full bg-mustard-400 px-8 py-4 font-heading text-sm font-semibold text-sage-900 shadow-lg shadow-mustard-900/20 transition-colors hover:bg-mustard-300"
+              className="rounded-full bg-mustard-400 px-8 py-4 font-heading text-sm font-semibold text-sage-900 shadow-lg shadow-mustard-900/20 transition-colors hover:bg-mustard-300"
             >
-              <Glasses size={17} /> Ver catálogo
+              Ver catálogo
             </motion.a>
             <motion.a
               href="#presupuesto"
