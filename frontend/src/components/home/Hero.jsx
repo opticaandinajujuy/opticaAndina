@@ -4,23 +4,26 @@ import { fadeInUp, staggerChildren } from '../../hooks/useScrollAnimation.js';
 
 function Hero() {
   return (
-    <section className="relative flex min-h-screen w-full items-center overflow-hidden bg-sage-900 md:pt-24">
+    <section className="relative flex min-h-screen w-full items-center overflow-hidden bg-sage-900 md:pt-32">
       <video
         autoPlay
         loop
         muted
         playsInline
+        className="scale-100 md:scale-125"
         style={{
           position: 'absolute',
           inset: 0,
           width: '100%',
           height: '100%',
           objectFit: 'cover',
-          transform: 'scale(1.8)',
+          objectPosition: 'center',
         }}
-        src="https://res.cloudinary.com/dabikk5ei/video/upload/v1787155776/Video_Project_gtkhu6.mp4"
+        src="https://res.cloudinary.com/dabikk5ei/video/upload/v1787160008/Video_Project_1_vlmomf.mp4"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-sage-900/85 via-sage-900/65 to-sage-900/90" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-sage-900 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-sage-900 to-transparent" />
 
       {/* decorative glow */}
       <motion.div
@@ -45,7 +48,7 @@ function Hero() {
             variants={fadeInUp}
             className="mb-5 inline-flex items-center gap-1.5 rounded-full border border-mustard-300/40 bg-white/5 px-4 py-1.5 text-xs font-medium tracking-wide text-mustard-200"
           >
-            7 años como Óptica Andina · +20 años de experiencia en el rubro
+            Óptica Andina
           </motion.span>
 
           <motion.h1
