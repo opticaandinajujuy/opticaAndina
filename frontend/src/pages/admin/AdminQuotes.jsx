@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import Swal from 'sweetalert2';
+import { motion } from 'framer-motion';
 import AdminLayout from '../../components/admin/AdminLayout.jsx';
 import QuoteTable from '../../components/admin/QuoteTable.jsx';
+import { confirmAction, toastSuccess, toastError } from '../../lib/toast.js';
 import { getQuotes, updateQuoteStatus } from '../../services/quoteService.js';
 
 function AdminQuotes() {
@@ -15,11 +16,7 @@ function AdminQuotes() {
       const { data } = await getQuotes();
       setQuotes(data);
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'No pudimos cargar las consultas',
-        confirmButtonColor: '#4f6b58',
-      });
+      toastError('No pudimos cargar las consultas');
     } finally {
       setLoading(false);
     }
@@ -36,17 +33,23 @@ function AdminQuotes() {
 
   const handleToggleStatus = async (quote) => {
     const nextStatus = quote.status === 'attended' ? 'pending' : 'attended';
+
+    const result = await confirmAction({
+      title: nextStatus === 'attended' ? '¿Marcar como atendida?' : '¿Marcar como pendiente?',
+      text: `Consulta de ${quote.name}.`,
+      confirmButtonText: 'Confirmar',
+      icon: 'question',
+    });
+    if (!result.isConfirmed) return;
+
     try {
       await updateQuoteStatus(quote._id, nextStatus);
       setQuotes((prev) =>
         prev.map((q) => (q._id === quote._id ? { ...q, status: nextStatus } : q))
       );
+      toastSuccess('Estado actualizado');
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'No pudimos actualizar el estado',
-        confirmButtonColor: '#4f6b58',
-      });
+      toastError('No pudimos actualizar el estado');
     }
   };
 
@@ -57,19 +60,28 @@ function AdminQuotes() {
           { value: 'all', label: 'Todas' },
           { value: 'pending', label: 'Pendientes' },
           { value: 'attended', label: 'Atendidas' },
-        ].map((opt) => (
-          <button
-            key={opt.value}
-            onClick={() => setStatus(opt.value)}
-            className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
-              status === opt.value
-                ? 'border-sage-700 bg-sage-700 text-white'
-                : 'border-sage-200 text-sage-600 hover:border-sage-400'
-            }`}
-          >
-            {opt.label}
-          </button>
-        ))}
+        ].map((opt) => {
+          const active = status === opt.value;
+          return (
+            <motion.button
+              key={opt.value}
+              onClick={() => setStatus(opt.value)}
+              whileTap={{ scale: 0.95 }}
+              className={`relative rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+                active ? 'border-sage-700 text-white' : 'border-sage-200 text-sage-600 hover:border-sage-400'
+              }`}
+            >
+              {active && (
+                <motion.span
+                  layoutId="quote-status-pill"
+                  transition={{ type: 'spring', stiffness: 400, damping: 32 }}
+                  className="absolute inset-0 rounded-full bg-sage-700"
+                />
+              )}
+              <span className="relative">{opt.label}</span>
+            </motion.button>
+          );
+        })}
       </div>
 
       {loading ? (

@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import Swal from 'sweetalert2';
 import { Plus, Search, X } from 'lucide-react';
 import AdminLayout from '../../components/admin/AdminLayout.jsx';
 import ProductTable from '../../components/admin/ProductTable.jsx';
 import ProductForm from '../../components/admin/ProductForm.jsx';
 import Input from '../../components/ui/Input.jsx';
 import Button from '../../components/ui/Button.jsx';
+import { confirmAction, toastSuccess, toastError } from '../../lib/toast.js';
 import {
   getProducts,
   createProduct,
@@ -28,11 +28,7 @@ function AdminProducts() {
       const { data } = await getProducts();
       setProducts(data);
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'No pudimos cargar los productos',
-        confirmButtonColor: '#4f6b58',
-      });
+      toastError('No pudimos cargar los productos');
     } finally {
       setLoading(false);
     }
@@ -66,6 +62,16 @@ function AdminProducts() {
   };
 
   const handleSubmit = async (data) => {
+    if (editingProduct) {
+      const result = await confirmAction({
+        title: '¿Guardar los cambios?',
+        text: `Se va a actualizar "${editingProduct.name}".`,
+        confirmButtonText: 'Guardar cambios',
+        icon: 'question',
+      });
+      if (!result.isConfirmed) return;
+    }
+
     setSubmitting(true);
     try {
       if (editingProduct) {
@@ -75,35 +81,20 @@ function AdminProducts() {
       }
       await fetchProducts();
       closeForm();
-      Swal.fire({
-        icon: 'success',
-        title: editingProduct ? 'Producto actualizado' : 'Producto creado',
-        confirmButtonColor: '#4f6b58',
-        timer: 1600,
-        showConfirmButton: false,
-      });
+      toastSuccess(editingProduct ? 'Producto actualizado' : 'Producto creado');
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'No pudimos guardar el producto',
-        text: error.response?.data?.message,
-        confirmButtonColor: '#4f6b58',
-      });
+      toastError(error.response?.data?.message || 'No pudimos guardar el producto');
     } finally {
       setSubmitting(false);
     }
   };
 
   const handleDelete = async (product) => {
-    const result = await Swal.fire({
-      icon: 'warning',
+    const result = await confirmAction({
       title: `¿Eliminar "${product.name}"?`,
       text: 'Esta acción no se puede deshacer.',
-      showCancelButton: true,
       confirmButtonText: 'Eliminar',
-      cancelButtonText: 'Cancelar',
       confirmButtonColor: '#c0392b',
-      cancelButtonColor: '#4f6b58',
     });
 
     if (!result.isConfirmed) return;
@@ -111,12 +102,9 @@ function AdminProducts() {
     try {
       await deleteProduct(product._id);
       await fetchProducts();
+      toastSuccess('Producto eliminado');
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'No pudimos eliminar el producto',
-        confirmButtonColor: '#4f6b58',
-      });
+      toastError('No pudimos eliminar el producto');
     }
   };
 
@@ -157,9 +145,9 @@ function AdminProducts() {
       )}
 
       {formOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-sage-900/40 p-4 backdrop-blur-sm md:items-center">
-          <div className="my-8 w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl">
-            <div className="mb-5 flex items-center justify-between">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-sage-900/40 p-3 backdrop-blur-sm sm:p-4">
+          <div className="flex max-h-[90vh] w-full max-w-lg flex-col rounded-2xl bg-white shadow-xl">
+            <div className="flex shrink-0 items-center justify-between border-b border-sage-100 px-5 py-4 sm:px-6">
               <h2 className="font-heading text-lg font-bold text-sage-900">
                 {editingProduct ? 'Editar producto' : 'Nuevo producto'}
               </h2>
@@ -171,12 +159,14 @@ function AdminProducts() {
                 <X size={18} />
               </button>
             </div>
-            <ProductForm
-              product={editingProduct}
-              onSubmit={handleSubmit}
-              onCancel={closeForm}
-              submitting={submitting}
-            />
+            <div className="overflow-y-auto px-5 py-5 sm:px-6">
+              <ProductForm
+                product={editingProduct}
+                onSubmit={handleSubmit}
+                onCancel={closeForm}
+                submitting={submitting}
+              />
+            </div>
           </div>
         </div>
       )}
