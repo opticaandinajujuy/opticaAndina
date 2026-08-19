@@ -6,6 +6,7 @@ import Footer from '../components/layout/Footer.jsx';
 import { getProductById } from '../services/productService.js';
 import { formatPrice } from '../lib/utils.js';
 import { buildProductInquiryLink } from '../lib/whatsapp.js';
+import { optimizedImage } from '../lib/cloudinaryTransform.js';
 
 const categoryLabels = {
   sol: 'Lentes de sol',
@@ -36,7 +37,7 @@ function ProductDetail() {
     <>
       <Navbar />
 
-      <main className="mx-auto max-w-5xl px-6 py-10 md:px-8">
+      <main className="mx-auto max-w-5xl px-6 py-10 md:px-8 md:pt-44">
         <Link
           to="/#catalogo"
           className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-sage-600 hover:text-sage-900"
@@ -55,12 +56,12 @@ function ProductDetail() {
         {!loading && product && (
           <div className="grid gap-10 md:grid-cols-2">
             <div>
-              <div className="aspect-square overflow-hidden rounded-2xl bg-sage-50">
+              <div className="aspect-square overflow-hidden rounded-2xl border border-sage-100 bg-white">
                 {product.images?.[activeImage] ? (
                   <img
-                    src={product.images[activeImage]}
+                    src={optimizedImage(product.images[activeImage], 800)}
                     alt={product.name}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-contain p-6"
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-sage-300">
@@ -78,7 +79,12 @@ function ProductDetail() {
                         i === activeImage ? 'border-sage-600' : 'border-transparent'
                       }`}
                     >
-                      <img src={img} alt="" className="h-full w-full object-cover" />
+                      <img
+                        src={optimizedImage(img, 100)}
+                        alt=""
+                        loading="lazy"
+                        className="h-full w-full object-cover"
+                      />
                     </button>
                   ))}
                 </div>
