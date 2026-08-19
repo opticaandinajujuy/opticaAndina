@@ -39,7 +39,12 @@ const infoItems = [
 
 function ContactSection() {
   return (
-    <section id="contacto" className="mx-auto max-w-6xl px-6 py-20 md:px-8">
+    <section id="contacto" className="relative overflow-hidden py-20">
+      <div className="pointer-events-none absolute -right-64 -top-48 opacity-[0.08]">
+        <Logo className="h-[60rem] w-[60rem] rotate-12" />
+      </div>
+
+      <div className="relative mx-auto max-w-6xl px-6 md:px-8">
       <motion.div
         initial="hidden"
         whileInView="show"
@@ -51,7 +56,7 @@ function ContactSection() {
           Hablemos
         </span>
         <h2 className="mt-2 font-heading text-4xl font-bold leading-tight text-sage-900 md:text-5xl">
-          Estamos para ayudarte a ver mejor
+          Estamos para ayudarte
         </h2>
       </motion.div>
 
@@ -121,6 +126,7 @@ function ContactSection() {
             Escribinos por WhatsApp
           </span>
         </motion.a>
+      </div>
       </div>
     </section>
   );
