@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Glasses, MessageSquareText } from 'lucide-react';
+import { Glasses, MessageSquareText, Tags } from 'lucide-react';
 import AdminLayout from '../../components/admin/AdminLayout.jsx';
 
 function AdminDashboard() {
@@ -29,6 +29,19 @@ function AdminDashboard() {
           <div>
             <p className="font-heading text-sm font-semibold text-sage-800">Consultas</p>
             <p className="text-xs text-sage-500">Ver presupuestos y marcar consultas atendidas</p>
+          </div>
+        </Link>
+
+        <Link
+          to="/admin/marcas"
+          className="flex w-full max-w-xs items-center gap-4 rounded-2xl border border-sage-100 bg-white p-6 shadow-sm transition hover:border-sage-300 hover:shadow-md"
+        >
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-mustard-100 text-mustard-600">
+            <Tags size={22} />
+          </div>
+          <div>
+            <p className="font-heading text-sm font-semibold text-sage-800">Marcas</p>
+            <p className="text-xs text-sage-500">Logos que aparecen en el carrusel debajo del hero</p>
           </div>
         </Link>
       </div>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Swal from 'sweetalert2';
+import { toastSuccess, toastError, toastWarning } from '../../lib/toast.js';
 import { authSchema } from '../../schemas/authSchema.js';
 import { login as loginRequest } from '../../services/authService.js';
 import { useAuthStore } from '../../store/useAuthStore.js';
@@ -26,14 +26,10 @@ function AdminLogin() {
     try {
       const { data: result } = await loginRequest(data);
       login(result.user, result.token);
+      toastSuccess('¡Bienvenida!');
       navigate('/admin');
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'No pudimos iniciar sesión',
-        text: error.response?.data?.message || 'Verificá tus credenciales.',
-        confirmButtonColor: '#4f6b58',
-      });
+      toastError(error.response?.data?.message || 'No pudimos iniciar sesión. Verificá tus credenciales.');
     } finally {
       setLoading(false);
     }
@@ -48,7 +44,12 @@ function AdminLogin() {
           <p className="text-sm text-sage-500">Óptica Andina</p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form
+          onSubmit={handleSubmit(onSubmit, () =>
+            toastWarning('Completá los campos obligatorios')
+          )}
+          className="space-y-4"
+        >
           <div>
             <label className="mb-1.5 block text-sm font-medium text-sage-700">Email</label>
             <Input type="email" {...register('email')} placeholder="admin@opticaandina.com" />

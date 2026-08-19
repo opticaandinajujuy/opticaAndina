@@ -80,23 +80,35 @@ function BottomNav() {
 
       <nav className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-sage-100 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md md:hidden">
         {items.map(({ label, href, icon: Icon }) => (
-          <a
+          <motion.a
             key={label}
             href={href}
             onClick={closeAndGo}
-            className="flex flex-1 flex-col items-center gap-1 py-2.5 text-sage-600 transition active:text-sage-900"
+            whileTap={{ scale: 0.85 }}
+            className="flex flex-1 flex-col items-center gap-1 py-2.5 text-sage-600 transition-colors active:text-sage-900"
           >
             <Icon size={22} strokeWidth={1.75} />
             <span className="text-[11px] font-medium">{label}</span>
-          </a>
+          </motion.a>
         ))}
-        <button
+        <motion.button
           onClick={toggle}
-          className="flex flex-1 flex-col items-center gap-1 py-2.5 text-sage-600 transition active:text-sage-900"
+          whileTap={{ scale: 0.85 }}
+          className="flex flex-1 flex-col items-center gap-1 py-2.5 text-sage-600 transition-colors active:text-sage-900"
         >
-          {open ? <X size={22} strokeWidth={1.75} /> : <Menu size={22} strokeWidth={1.75} />}
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={open ? 'close' : 'menu'}
+              initial={{ rotate: -90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: 90, opacity: 0 }}
+              transition={{ duration: 0.18 }}
+            >
+              {open ? <X size={22} strokeWidth={1.75} /> : <Menu size={22} strokeWidth={1.75} />}
+            </motion.span>
+          </AnimatePresence>
           <span className="text-[11px] font-medium">Más</span>
-        </button>
+        </motion.button>
       </nav>
     </>
   );
