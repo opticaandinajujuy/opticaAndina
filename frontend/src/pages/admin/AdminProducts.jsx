@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Plus, Search, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Plus, Search, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 import AdminLayout from '../../components/admin/AdminLayout.jsx';
 import ProductTable from '../../components/admin/ProductTable.jsx';
 import ProductForm from '../../components/admin/ProductForm.jsx';
@@ -13,11 +14,17 @@ import {
   deleteProduct,
 } from '../../services/productService.js';
 
+const PAGE_SIZE = 10;
+
 function AdminProducts() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [category, setCategory] = useState('all');
+  const [page, setPage] = useState(1);
+  const [pages, setPages] = useState(1);
+  const [total, setTotal] = useState(0);
   const [editingProduct, setEditingProduct] = useState(null);
   const [formOpen, setFormOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -25,8 +32,15 @@ function AdminProducts() {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const { data } = await getProducts();
-      setProducts(data);
+      const { data } = await getProducts({
+        category: category !== 'all' ? category : undefined,
+        search: debouncedSearch || undefined,
+        page,
+        limit: PAGE_SIZE,
+      });
+      setProducts(data.items);
+      setPages(data.pages);
+      setTotal(data.total);
     } catch (error) {
       toastError('No pudimos cargar los productos');
     } finally {
@@ -34,17 +48,20 @@ function AdminProducts() {
     }
   };
 
+  // debounce solo la búsqueda por texto, no la carga inicial ni los clicks
+  useEffect(() => {
+    const timeout = setTimeout(() => setDebouncedSearch(search), 300);
+    return () => clearTimeout(timeout);
+  }, [search]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [category, debouncedSearch]);
+
   useEffect(() => {
     fetchProducts();
-  }, []);
-
-  const filtered = useMemo(() => {
-    return products.filter((p) => {
-      const matchesCategory = category === 'all' || p.category === category;
-      const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase());
-      return matchesCategory && matchesSearch;
-    });
-  }, [products, search, category]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category, debouncedSearch, page]);
 
   const openCreate = () => {
     setEditingProduct(null);
@@ -141,7 +158,39 @@ function AdminProducts() {
       {loading ? (
         <p className="py-12 text-center text-sm text-sage-500">Cargando productos...</p>
       ) : (
-        <ProductTable products={filtered} onEdit={openEdit} onDelete={handleDelete} />
+        <>
+          <ProductTable products={products} onEdit={openEdit} onDelete={handleDelete} />
+
+          {pages > 1 && (
+            <div className="mt-6 flex items-center justify-center gap-4">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.92 }}
+                disabled={page === 1}
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-sage-200 text-sage-600 transition-colors hover:border-sage-400 disabled:cursor-not-allowed disabled:opacity-40"
+                aria-label="Página anterior"
+              >
+                <ChevronLeft size={16} />
+              </motion.button>
+
+              <span className="text-sm font-medium text-sage-600">
+                Página {page} de {pages} · {total} productos
+              </span>
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.92 }}
+                disabled={page === pages}
+                onClick={() => setPage((p) => Math.min(pages, p + 1))}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-sage-200 text-sage-600 transition-colors hover:border-sage-400 disabled:cursor-not-allowed disabled:opacity-40"
+                aria-label="Página siguiente"
+              >
+                <ChevronRight size={16} />
+              </motion.button>
+            </div>
+          )}
+        </>
       )}
 
       {formOpen && (

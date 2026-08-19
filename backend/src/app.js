@@ -5,7 +5,6 @@ const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const quoteRoutes = require('./routes/quoteRoutes');
-const brandRoutes = require('./routes/brandRoutes');
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 
 const app = express();
@@ -24,7 +23,6 @@ app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/quotes', quoteRoutes);
-app.use('/api/brands', brandRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

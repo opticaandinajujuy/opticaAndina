@@ -45,12 +45,6 @@ function AdminLayout({ title, children }) {
             >
               Consultas
             </Link>
-            <Link
-              to="/admin/marcas"
-              className="shrink-0 font-heading text-sm font-medium text-sage-600 transition hover:text-sage-900"
-            >
-              Marcas
-            </Link>
           </nav>
 
           <div className="flex shrink-0 items-center gap-3">

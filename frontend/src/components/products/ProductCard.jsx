@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { MessageCircle } from 'lucide-react';
 import { formatPrice } from '../../lib/utils.js';
 import { buildProductInquiryLink } from '../../lib/whatsapp.js';
+import { optimizedImage } from '../../lib/cloudinaryTransform.js';
 
 const categoryLabels = {
   sol: 'Lentes de sol',
@@ -21,13 +22,14 @@ function ProductCard({ product }) {
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
       className="group flex flex-col overflow-hidden rounded-2xl border border-sage-100 bg-white shadow-sm transition-shadow hover:shadow-xl hover:shadow-sage-900/10"
     >
-      <Link to={`/productos/${product._id}`} className="block overflow-hidden bg-sage-50">
+      <Link to={`/productos/${product._id}`} className="block overflow-hidden bg-white">
         <div className="aspect-square w-full overflow-hidden">
           {product.images?.[0] ? (
             <img
-              src={product.images[0]}
+              src={optimizedImage(product.images[0], 500)}
               alt={product.name}
-              className="h-full w-full object-cover transition duration-500 ease-out group-hover:scale-105"
+              loading="lazy"
+              className="h-full w-full object-contain p-4 transition duration-500 ease-out group-hover:scale-105"
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center text-sage-300">
@@ -42,7 +44,9 @@ function ProductCard({ product }) {
           {categoryLabels[product.category]}
         </span>
         <Link to={`/productos/${product._id}`}>
-          <h3 className="font-heading text-sm font-semibold text-sage-900">{product.name}</h3>
+          <h3 className="line-clamp-2 font-heading text-sm font-semibold text-sage-900">
+            {product.name}
+          </h3>
         </Link>
         {product.price ? (
           <p className="font-heading text-base font-bold text-sage-800">
@@ -58,7 +62,7 @@ function ProductCard({ product }) {
           rel="noreferrer"
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.96 }}
-          className="mt-2 flex items-center justify-center gap-1.5 rounded-full border border-sage-200 py-2 text-xs font-semibold text-sage-700 transition-colors hover:border-sage-500 hover:bg-sage-50"
+          className="mt-auto flex items-center justify-center gap-1.5 rounded-full border border-sage-200 py-2 text-xs font-semibold text-sage-700 transition-colors hover:border-sage-500 hover:bg-sage-50"
         >
           <MessageCircle size={14} /> Consultar por WhatsApp
         </motion.a>

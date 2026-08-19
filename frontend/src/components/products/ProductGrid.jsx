@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { getProducts } from '../../services/productService.js';
 import { useProductStore } from '../../store/useProductStore.js';
 import { fadeInUp, scrollViewport, staggerChildren } from '../../hooks/useScrollAnimation.js';
@@ -7,19 +8,45 @@ import ProductFilters from './ProductFilters.jsx';
 import ProductSearch from './ProductSearch.jsx';
 import ProductCard from './ProductCard.jsx';
 
+const PAGE_SIZE = 12;
+
 function ProductGrid() {
   const { products, category, search, setProducts, setCategory, setSearch } = useProductStore();
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [loading, setLoading] = useState(true);
   const [errored, setErrored] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pages, setPages] = useState(1);
+  const [total, setTotal] = useState(0);
+
+  // debounce solo la búsqueda por texto, no la carga inicial ni los clicks
+  useEffect(() => {
+    const timeout = setTimeout(() => setDebouncedSearch(search), 300);
+    return () => clearTimeout(timeout);
+  }, [search]);
+
+  // volver a la página 1 cuando cambia el filtro o la búsqueda
+  useEffect(() => {
+    setPage(1);
+  }, [category, debouncedSearch]);
 
   useEffect(() => {
     let active = true;
     setLoading(true);
     setErrored(false);
 
-    getProducts({ activeOnly: 'true' })
+    getProducts({
+      activeOnly: 'true',
+      category: category !== 'all' ? category : undefined,
+      search: debouncedSearch || undefined,
+      page,
+      limit: PAGE_SIZE,
+    })
       .then(({ data }) => {
-        if (active) setProducts(data);
+        if (!active) return;
+        setProducts(data.items);
+        setPages(data.pages);
+        setTotal(data.total);
       })
       .catch(() => {
         if (active) setErrored(true);
@@ -31,13 +58,7 @@ function ProductGrid() {
     return () => {
       active = false;
     };
-  }, [setProducts]);
-
-  const filtered = products.filter((p) => {
-    const matchesCategory = category === 'all' || p.category === category;
-    const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  }, [category, debouncedSearch, page, setProducts]);
 
   return (
     <section id="catalogo" className="relative overflow-hidden px-6 py-20 md:px-8">
@@ -78,24 +99,56 @@ function ProductGrid() {
           </p>
         )}
 
-        {!loading && !errored && filtered.length === 0 && (
+        {!loading && !errored && products.length === 0 && (
           <p className="py-16 text-center text-sm text-sage-500">
             No encontramos productos con ese criterio.
           </p>
         )}
 
-        {!loading && !errored && filtered.length > 0 && (
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={scrollViewport}
-            variants={staggerChildren}
-            className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6 lg:grid-cols-4"
-          >
-            {filtered.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))}
-          </motion.div>
+        {!loading && !errored && products.length > 0 && (
+          <>
+            <motion.div
+              key={page}
+              initial="hidden"
+              animate="show"
+              variants={staggerChildren}
+              className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6 lg:grid-cols-4"
+            >
+              {products.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </motion.div>
+
+            {pages > 1 && (
+              <div className="mt-12 flex items-center justify-center gap-4">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.92 }}
+                  disabled={page === 1}
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-sage-200 text-sage-600 transition-colors hover:border-sage-400 disabled:cursor-not-allowed disabled:opacity-40"
+                  aria-label="Página anterior"
+                >
+                  <ChevronLeft size={18} />
+                </motion.button>
+
+                <span className="text-sm font-medium text-sage-600">
+                  Página {page} de {pages} · {total} productos
+                </span>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.92 }}
+                  disabled={page === pages}
+                  onClick={() => setPage((p) => Math.min(pages, p + 1))}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-sage-200 text-sage-600 transition-colors hover:border-sage-400 disabled:cursor-not-allowed disabled:opacity-40"
+                  aria-label="Página siguiente"
+                >
+                  <ChevronRight size={18} />
+                </motion.button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </section>

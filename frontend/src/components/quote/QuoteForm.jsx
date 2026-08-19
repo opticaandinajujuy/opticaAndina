@@ -81,8 +81,8 @@ function QuoteForm() {
         transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
         className="pointer-events-none absolute -right-24 top-0 h-80 w-80 rounded-full bg-mustard-300/30 blur-3xl"
       />
-      <div className="pointer-events-none absolute -bottom-24 -left-24 opacity-[0.06]">
-        <Logo className="h-[26rem] w-[26rem] -rotate-12" />
+      <div className="pointer-events-none absolute -bottom-64 -left-64 opacity-[0.08]">
+        <Logo className="h-[60rem] w-[60rem] -rotate-12" />
       </div>
 
       <div className="relative mx-auto grid max-w-6xl gap-14 px-6 md:grid-cols-[1fr_1.15fr] md:items-center md:px-8">
