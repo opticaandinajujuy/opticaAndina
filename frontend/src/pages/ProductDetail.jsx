@@ -161,7 +161,7 @@ function ProductDetail() {
                 rel="noreferrer"
                 className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-mustard-400 py-3.5 font-heading text-sm font-semibold text-sage-900 shadow-sm transition hover:bg-mustard-500"
               >
-                <MessageCircle size={17} /> Consultar por WhatsApp
+                <MessageCircle size={17} /> Consultar
               </a>
             </div>
           </div>
