@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { getBrands } from '../../services/brandService.js';
+import { optimizedImage } from '../../lib/cloudinaryTransform.js';
 
 function BrandsCarousel() {
   const [brands, setBrands] = useState([]);
@@ -45,7 +46,12 @@ function BrandsCarousel() {
               key={`${brand._id}-${i}`}
               className="flex h-12 w-28 shrink-0 items-center justify-center grayscale transition duration-300 hover:grayscale-0"
             >
-              <img src={brand.logo} alt={brand.name} className="max-h-full max-w-full object-contain" />
+              <img
+                src={optimizedImage(brand.logo, 150)}
+                alt={brand.name}
+                loading="lazy"
+                className="max-h-full max-w-full object-contain"
+              />
             </div>
           ))}
         </motion.div>
