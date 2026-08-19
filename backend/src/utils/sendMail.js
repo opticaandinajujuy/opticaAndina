@@ -5,7 +5,7 @@ async function sendQuoteNotification(quote) {
     from: process.env.SMTP_USER,
     to: process.env.NOTIFICATION_EMAIL,
     subject: `Nueva consulta de presupuesto - ${quote.name}`,
-    text: `Nombre: ${quote.name}\nTeléfono: ${quote.phone}\nEmail: ${quote.email}\nMensaje: ${quote.message}\nReceta: ${quote.recipeUrl || 'No adjuntó'}`,
+    text: `Nombre: ${quote.name}\nTeléfono: ${quote.phone}\nMensaje: ${quote.message}\nReceta: ${quote.recipeUrl || 'No adjuntó'}`,
   });
 }
 
