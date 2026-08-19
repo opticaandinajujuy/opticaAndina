@@ -69,7 +69,7 @@ function Hero() {
             San Salvador de Jujuy.
           </motion.p>
 
-          <motion.div variants={fadeInUp} className="mt-9 flex flex-wrap gap-4">
+          <motion.div variants={fadeInUp} className="mb-16 mt-9 flex flex-wrap gap-4 md:mb-8">
             <motion.a
               href="#catalogo"
               whileHover={{ scale: 1.05 }}
