@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+
 const categories = [
   { value: 'all', label: 'Todos' },
   { value: 'sol', label: 'Lentes de sol' },
@@ -8,19 +10,30 @@ const categories = [
 function ProductFilters({ value, onChange }) {
   return (
     <div className="flex flex-wrap gap-2">
-      {categories.map((cat) => (
-        <button
-          key={cat.value}
-          onClick={() => onChange(cat.value)}
-          className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
-            value === cat.value
-              ? 'border-sage-700 bg-sage-700 text-white'
-              : 'border-sage-200 text-sage-600 hover:border-sage-400'
-          }`}
-        >
-          {cat.label}
-        </button>
-      ))}
+      {categories.map((cat) => {
+        const active = value === cat.value;
+        return (
+          <motion.button
+            key={cat.value}
+            onClick={() => onChange(cat.value)}
+            whileTap={{ scale: 0.95 }}
+            className={`relative rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+              active
+                ? 'border-sage-700 text-white'
+                : 'border-sage-200 text-sage-600 hover:border-sage-400'
+            }`}
+          >
+            {active && (
+              <motion.span
+                layoutId="filter-pill"
+                transition={{ type: 'spring', stiffness: 400, damping: 32 }}
+                className="absolute inset-0 rounded-full bg-sage-700"
+              />
+            )}
+            <span className="relative">{cat.label}</span>
+          </motion.button>
+        );
+      })}
     </div>
   );
 }
