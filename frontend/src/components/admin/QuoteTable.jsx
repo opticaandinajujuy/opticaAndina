@@ -45,7 +45,6 @@ function QuoteTable({ quotes, onToggleStatus }) {
               <td className="px-4 py-3">
                 <p className="font-medium text-sage-800">{quote.name}</p>
                 <p className="text-xs text-sage-500">{quote.phone}</p>
-                <p className="text-xs text-sage-500">{quote.email}</p>
               </td>
               <td className="px-4 py-3 text-sage-600">
                 {typeLabels[quote.consultationType] ?? 'Otro'}

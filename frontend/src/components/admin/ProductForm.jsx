@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { productSchema } from '../../schemas/productSchema.js';
+import { toastWarning } from '../../lib/toast.js';
 import Input from '../ui/Input.jsx';
 import Button from '../ui/Button.jsx';
 import ImageUploader from './ImageUploader.jsx';
@@ -51,21 +53,28 @@ function TagListField({ label, placeholder, value = [], onChange }) {
       </div>
       {value.length > 0 && (
         <div className="mt-2 flex flex-wrap gap-2">
-          {value.map((tag, i) => (
-            <span
-              key={`${tag}-${i}`}
-              className="flex items-center gap-1.5 rounded-full bg-sage-100 px-3 py-1 text-xs font-medium text-sage-700"
-            >
-              {tag}
-              <button
-                type="button"
-                onClick={() => onChange(value.filter((_, idx) => idx !== i))}
-                aria-label={`Quitar ${tag}`}
+          <AnimatePresence initial={false}>
+            {value.map((tag, i) => (
+              <motion.span
+                key={`${tag}-${i}`}
+                initial={{ opacity: 0, scale: 0.6 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.6 }}
+                whileHover={{ scale: 1.06 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 26 }}
+                className="flex items-center gap-1.5 rounded-full bg-sage-100 px-3 py-1 text-xs font-medium text-sage-700"
               >
-                <X size={12} />
-              </button>
-            </span>
-          ))}
+                {tag}
+                <button
+                  type="button"
+                  onClick={() => onChange(value.filter((_, idx) => idx !== i))}
+                  aria-label={`Quitar ${tag}`}
+                >
+                  <X size={12} />
+                </button>
+              </motion.span>
+            ))}
+          </AnimatePresence>
         </div>
       )}
     </div>
@@ -89,7 +98,12 @@ function ProductForm({ product, onSubmit, onCancel, submitting }) {
   }, [product, reset]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+    <form
+      onSubmit={handleSubmit(onSubmit, () =>
+        toastWarning('Completá los campos obligatorios')
+      )}
+      className="space-y-5"
+    >
       <div>
         <label className="mb-1.5 block text-sm font-medium text-sage-700">Nombre</label>
         <Input {...register('name')} placeholder="Ej: Ray-Ban Aviator Classic" />
