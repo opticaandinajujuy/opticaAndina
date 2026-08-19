@@ -52,16 +52,16 @@ function Navbar({ overlay = false }) {
 
         <nav className="flex items-center gap-9">
           {links.map((link) => (
-            <a
+            <Link
               key={link.href}
-              href={link.href}
+              to={`/${link.href}`}
               className={`group relative font-heading text-sm font-medium transition-colors ${
                 scrolled ? 'text-sage-700 hover:text-sage-900' : 'text-bone hover:text-mustard-200'
               }`}
             >
               {link.label}
               <span className="absolute -bottom-1 left-0 h-0.5 w-full origin-left scale-x-0 bg-mustard-400 transition-transform duration-300 group-hover:scale-x-100" />
-            </a>
+            </Link>
           ))}
         </nav>
 

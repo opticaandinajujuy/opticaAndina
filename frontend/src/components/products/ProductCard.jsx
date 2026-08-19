@@ -64,7 +64,7 @@ function ProductCard({ product }) {
           whileTap={{ scale: 0.96 }}
           className="mt-auto flex items-center justify-center gap-1.5 rounded-full border border-sage-200 py-2 text-xs font-semibold text-sage-700 transition-colors hover:border-sage-500 hover:bg-sage-50"
         >
-          <MessageCircle size={14} /> Consultar por WhatsApp
+          <MessageCircle size={14} /> Consultar
         </motion.a>
       </div>
     </motion.div>

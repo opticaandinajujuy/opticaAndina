@@ -1,13 +1,16 @@
 import { AnimatePresence, motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Glasses, FileText, Phone, Menu, X, Instagram, MapPin } from 'lucide-react';
 import { useUiStore } from '../../store/useUiStore.js';
 import Logo from '../ui/Logo.jsx';
 import { buildWhatsappLink } from '../../lib/whatsapp.js';
 
+const MotionLink = motion(Link);
+
 const items = [
-  { label: 'Catálogo', href: '#catalogo', icon: Glasses },
-  { label: 'Presupuesto', href: '#presupuesto', icon: FileText },
-  { label: 'Contacto', href: '#contacto', icon: Phone },
+  { label: 'Catálogo', href: '/#catalogo', icon: Glasses },
+  { label: 'Presupuesto', href: '/#presupuesto', icon: FileText },
+  { label: 'Contacto', href: '/#contacto', icon: Phone },
 ];
 
 function BottomNav() {
@@ -52,20 +55,20 @@ function BottomNav() {
               </button>
             </div>
 
-            <a
-              href="#nosotros"
+            <Link
+              to="/#nosotros"
               onClick={closeAndGo}
               className="block border-b border-sage-100 py-3 font-heading text-base font-medium text-sage-800"
             >
               Nosotros
-            </a>
-            <a
-              href="#contacto"
+            </Link>
+            <Link
+              to="/#contacto"
               onClick={closeAndGo}
               className="flex items-center gap-2 border-b border-sage-100 py-3 font-heading text-base font-medium text-sage-800"
             >
               <MapPin size={17} /> Av. General Alvear 1166, S. S. de Jujuy
-            </a>
+            </Link>
             <a
               href={import.meta.env.VITE_INSTAGRAM_URL}
               target="_blank"
@@ -80,16 +83,16 @@ function BottomNav() {
 
       <nav className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-sage-100 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md md:hidden">
         {items.map(({ label, href, icon: Icon }) => (
-          <motion.a
+          <MotionLink
             key={label}
-            href={href}
+            to={href}
             onClick={closeAndGo}
             whileTap={{ scale: 0.85 }}
             className="flex flex-1 flex-col items-center gap-1 py-2.5 text-sage-600 transition-colors active:text-sage-900"
           >
             <Icon size={22} strokeWidth={1.75} />
             <span className="text-[11px] font-medium">{label}</span>
-          </motion.a>
+          </MotionLink>
         ))}
         <motion.button
           onClick={toggle}

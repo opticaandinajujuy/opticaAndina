@@ -29,8 +29,15 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.slice(1);
+      const timeout = setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+      return () => clearTimeout(timeout);
+    }
     window.scrollTo(0, 0);
-  }, [location.pathname]);
+  }, [location.pathname, location.hash]);
 
   return (
     <>
