@@ -1,22 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
-import { useInView, animate } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { animate } from 'framer-motion';
 
-function Counter({ value, suffix = '', duration = 1.6 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
+function Counter({ value, suffix = '', duration = 1.6, trigger }) {
   const [display, setDisplay] = useState(0);
 
   useEffect(() => {
-    if (!isInView) return;
+    if (!trigger) return;
     const controls = animate(0, value, {
       duration,
       ease: 'easeOut',
       onUpdate: (latest) => setDisplay(Math.round(latest)),
     });
     return () => controls.stop();
-  }, [isInView, value, duration]);
+  }, [trigger, value, duration]);
 
-  return <span ref={ref}>{display}{suffix}</span>;
+  return <span>{display}{suffix}</span>;
 }
 
 export default Counter;

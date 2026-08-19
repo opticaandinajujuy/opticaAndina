@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { ShieldCheck, HeartHandshake, GraduationCap } from 'lucide-react';
 import { aboutContent } from '../../data/aboutContent.js';
 import { fadeInUp, scrollViewport, staggerChildren } from '../../hooks/useScrollAnimation.js';
@@ -11,6 +12,9 @@ const valueIcons = {
 };
 
 function About() {
+  const statsRef = useRef(null);
+  const statsInView = useInView(statsRef, { once: true, margin: '-80px', amount: 0.3 });
+
   return (
     <section id="nosotros" className="relative overflow-hidden bg-sage-900 py-24">
       <span className="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 select-none whitespace-nowrap font-heading text-[22vw] font-extrabold leading-none text-white/[0.03] md:text-[14vw]">
@@ -43,10 +47,10 @@ function About() {
         </motion.h2>
 
         <div className="mt-14 grid gap-12 md:grid-cols-[auto_1fr] md:items-end md:gap-16">
-          <motion.div variants={fadeInUp} className="flex gap-10 sm:gap-16">
+          <motion.div ref={statsRef} variants={fadeInUp} className="flex gap-10 sm:gap-16">
             <div>
               <p className="font-heading text-7xl font-extrabold leading-none text-mustard-400 md:text-8xl">
-                <Counter value={aboutContent.yearsInBusiness} />
+                <Counter value={aboutContent.yearsInBusiness} trigger={statsInView} />
               </p>
               <p className="mt-2 max-w-[9rem] text-sm leading-snug text-sage-200/80">
                 años como Óptica Andina
@@ -54,7 +58,7 @@ function About() {
             </div>
             <div>
               <p className="font-heading text-7xl font-extrabold leading-none text-bone md:text-8xl">
-                <Counter value={aboutContent.yearsOfExperience} suffix="+" />
+                <Counter value={aboutContent.yearsOfExperience} suffix="+" trigger={statsInView} />
               </p>
               <p className="mt-2 max-w-[9rem] text-sm leading-snug text-sage-200/80">
                 años de experiencia en el rubro óptico
