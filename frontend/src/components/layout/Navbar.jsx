@@ -11,15 +11,21 @@ const links = [
   { label: 'Contacto', href: '#contacto' },
 ];
 
-function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+function Navbar({ overlay = false }) {
+  const [scrolledPast, setScrolledPast] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    if (!overlay) return;
+    const onScroll = () => setScrolledPast(window.scrollY > 12);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [overlay]);
+
+  // en modo overlay (sobre el video del Hero) el texto arranca claro y
+  // se oscurece al scrollear; en las demás páginas el fondo siempre es
+  // claro, así que el navbar es oscuro desde el arranque
+  const scrolled = !overlay || scrolledPast;
 
   return (
     <motion.header
@@ -28,14 +34,19 @@ function Navbar() {
       transition={{ duration: 0.5, ease: 'easeOut' }}
       className={`fixed inset-x-0 top-0 z-50 hidden w-full md:block ${
         scrolled
-          ? 'bg-bone/90 shadow-sm backdrop-blur-md'
+          ? 'border-b border-sage-100 bg-white/95 shadow-sm backdrop-blur-md'
           : 'bg-transparent'
       } transition-all duration-300`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-8 py-4">
         <Link to="/" className="shrink-0">
           <motion.div whileHover={{ scale: 1.05, rotate: -2 }} whileTap={{ scale: 0.95 }}>
-            <Logo className="h-16 w-16" withLabel labelClassName="text-sm tracking-wide" />
+            <Logo
+              className="h-24 w-24"
+              withLabel
+              labelClassName="text-base tracking-wide"
+              labelColorClassName={scrolled ? 'text-sage-800' : 'text-bone'}
+            />
           </motion.div>
         </Link>
 
@@ -44,7 +55,9 @@ function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="group relative font-heading text-sm font-medium text-sage-700 transition hover:text-sage-900"
+              className={`group relative font-heading text-sm font-medium transition-colors ${
+                scrolled ? 'text-sage-700 hover:text-sage-900' : 'text-bone hover:text-mustard-200'
+              }`}
             >
               {link.label}
               <span className="absolute -bottom-1 left-0 h-0.5 w-full origin-left scale-x-0 bg-mustard-400 transition-transform duration-300 group-hover:scale-x-100" />
@@ -60,7 +73,9 @@ function Navbar() {
             aria-label="Instagram de Óptica Andina"
             whileHover={{ scale: 1.15, rotate: 8 }}
             whileTap={{ scale: 0.9 }}
-            className="text-sage-600 transition-colors hover:text-sage-900"
+            className={`transition-colors ${
+              scrolled ? 'text-sage-600 hover:text-sage-900' : 'text-bone hover:text-mustard-200'
+            }`}
           >
             <Instagram size={20} strokeWidth={1.75} />
           </motion.a>

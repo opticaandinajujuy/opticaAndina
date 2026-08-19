@@ -9,8 +9,16 @@ async function getProducts(req, res, next) {
     if (search) filter.name = { $regex: search, $options: 'i' };
     if (activeOnly === 'true') filter.active = true;
 
-    const products = await Product.find(filter).sort({ createdAt: -1 });
-    res.json(products);
+    const page = Math.max(1, parseInt(req.query.page, 10) || 1);
+    const limit = Math.min(48, Math.max(1, parseInt(req.query.limit, 10) || 12));
+    const skip = (page - 1) * limit;
+
+    const [items, total] = await Promise.all([
+      Product.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit),
+      Product.countDocuments(filter),
+    ]);
+
+    res.json({ items, total, page, pages: Math.ceil(total / limit) || 1 });
   } catch (error) {
     next(error);
   }
