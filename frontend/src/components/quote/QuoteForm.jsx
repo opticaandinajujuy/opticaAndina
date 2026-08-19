@@ -2,16 +2,23 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import Swal from 'sweetalert2';
-import { Paperclip, X } from 'lucide-react';
+import { Paperclip, X, Clock, ShieldCheck, FileText } from 'lucide-react';
 import { quoteSchema } from '../../schemas/quoteSchema.js';
 import { createQuote } from '../../services/quoteService.js';
-import { fadeInUp, scrollViewport } from '../../hooks/useScrollAnimation.js';
+import { toastSuccess, toastError, toastWarning } from '../../lib/toast.js';
+import { fadeInUp, scrollViewport, staggerChildren } from '../../hooks/useScrollAnimation.js';
 import Input from '../ui/Input.jsx';
 import Button from '../ui/Button.jsx';
+import Logo from '../ui/Logo.jsx';
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'application/pdf'];
 const MAX_SIZE = 5 * 1024 * 1024;
+
+const trustPoints = [
+  { icon: Clock, text: 'Te respondemos a la brevedad' },
+  { icon: ShieldCheck, text: 'Consultá gratis, sin compromiso' },
+  { icon: Paperclip, text: 'Podés adjuntar tu receta al toque' },
+];
 
 function QuoteForm() {
   const [file, setFile] = useState(null);
@@ -59,132 +66,161 @@ function QuoteForm() {
       reset();
       setFile(null);
 
-      Swal.fire({
-        icon: 'success',
-        title: '¡Consulta enviada!',
-        text: 'En breve nos pondremos en contacto con vos.',
-        confirmButtonColor: '#4f6b58',
-      });
+      toastSuccess('¡Consulta enviada! Te contactaremos pronto.');
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'No pudimos enviar tu consulta',
-        text: 'Probá de nuevo en unos minutos.',
-        confirmButtonColor: '#4f6b58',
-      });
+      toastError('No pudimos enviar tu consulta. Probá de nuevo en unos minutos.');
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <section id="presupuesto" className="bg-sage-50/60 py-20">
+    <section id="presupuesto" className="relative overflow-hidden bg-mustard-50 py-24">
       <motion.div
-        initial="hidden"
-        whileInView="show"
-        viewport={scrollViewport}
-        variants={fadeInUp}
-        className="mx-auto max-w-2xl px-6 md:px-8"
-      >
-        <div className="mb-10 text-center">
-          <span className="text-xs font-semibold uppercase tracking-wide text-mustard-600">
-            Presupuesto
-          </span>
-          <h2 className="mt-1 font-heading text-3xl font-bold text-sage-900">
-            Contanos qué necesitás
-          </h2>
-          <p className="mt-2 text-sm text-sage-600">
-            Completá tus datos y, si ya tenés una receta, adjuntala para agilizar la consulta.
-          </p>
-        </div>
+        animate={{ scale: [1, 1.2, 1] }}
+        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+        className="pointer-events-none absolute -right-24 top-0 h-80 w-80 rounded-full bg-mustard-300/30 blur-3xl"
+      />
+      <div className="pointer-events-none absolute -bottom-24 -left-24 opacity-[0.06]">
+        <Logo className="h-[26rem] w-[26rem] -rotate-12" />
+      </div>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4 rounded-2xl border border-sage-100 bg-white p-6 shadow-sm md:p-8"
+      <div className="relative mx-auto grid max-w-6xl gap-14 px-6 md:grid-cols-[1fr_1.15fr] md:items-center md:px-8">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={scrollViewport}
+          variants={staggerChildren}
         >
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="mb-1.5 block text-sm font-medium text-sage-700">Nombre</label>
-              <Input {...register('name')} placeholder="Tu nombre" />
-              {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>}
-            </div>
-            <div>
-              <label className="mb-1.5 block text-sm font-medium text-sage-700">Teléfono</label>
-              <Input {...register('phone')} placeholder="388 4123456" />
-              {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone.message}</p>}
-            </div>
-          </div>
+          <motion.span
+            variants={fadeInUp}
+            className="text-xs font-semibold uppercase tracking-[0.2em] text-mustard-600"
+          >
+            Presupuesto
+          </motion.span>
+          <motion.h2
+            variants={fadeInUp}
+            className="mt-2 font-heading text-4xl font-bold leading-[1.05] text-sage-900 md:text-6xl"
+          >
+            Contanos qué necesitás
+          </motion.h2>
+          <motion.p variants={fadeInUp} className="mt-4 max-w-md text-base leading-relaxed text-sage-700/80">
+            Completá tus datos y, si ya tenés una receta, adjuntala para agilizar la consulta.
+          </motion.p>
 
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-sage-700">Email</label>
-            <Input type="email" {...register('email')} placeholder="tu@email.com" />
-            {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>}
-          </div>
-
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-sage-700">
-              Tipo de consulta
-            </label>
-            <select
-              {...register('consultationType')}
-              className="w-full rounded-lg border border-sage-200 bg-white px-4 py-2.5 text-sm focus:border-sage-500 focus:outline-none focus:ring-1 focus:ring-sage-500"
-            >
-              <option value="sol">Lentes de sol</option>
-              <option value="contacto">Lentes de contacto</option>
-              <option value="receta">Lentes recetados</option>
-              <option value="otro">Otra consulta</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-sage-700">Mensaje</label>
-            <textarea
-              {...register('message')}
-              rows={4}
-              placeholder="Contanos brevemente qué estás buscando"
-              className="w-full rounded-lg border border-sage-200 bg-white px-4 py-2.5 text-sm focus:border-sage-500 focus:outline-none focus:ring-1 focus:ring-sage-500"
-            />
-            {errors.message && (
-              <p className="mt-1 text-xs text-red-600">{errors.message.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-sage-700">
-              Adjuntar receta <span className="font-normal text-sage-400">(opcional)</span>
-            </label>
-            {file ? (
-              <div className="flex items-center justify-between rounded-lg border border-sage-200 bg-sage-50 px-4 py-2.5 text-sm text-sage-700">
-                <span className="truncate">{file.name}</span>
-                <button
-                  type="button"
-                  onClick={() => setFile(null)}
-                  aria-label="Quitar archivo"
-                  className="text-sage-400 hover:text-sage-700"
-                >
-                  <X size={16} />
-                </button>
+          <motion.div variants={fadeInUp} className="mt-9 space-y-4">
+            {trustPoints.map(({ icon: Icon, text }) => (
+              <div key={text} className="flex items-center gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sage-900 text-mustard-300">
+                  <Icon size={16} />
+                </div>
+                <span className="font-heading text-sm font-medium text-sage-800">{text}</span>
               </div>
-            ) : (
-              <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-dashed border-sage-300 px-4 py-2.5 text-sm text-sage-500 transition hover:border-sage-500 hover:text-sage-700">
-                <Paperclip size={16} />
-                Subir imagen o PDF (máx. 5MB)
-                <input
-                  type="file"
-                  accept="image/jpeg,image/png,application/pdf"
-                  className="hidden"
-                  onChange={handleFileChange}
-                />
-              </label>
-            )}
-            {fileError && <p className="mt-1 text-xs text-red-600">{fileError}</p>}
-          </div>
+            ))}
+          </motion.div>
+        </motion.div>
 
-          <Button type="submit" disabled={submitting} className="w-full">
-            {submitting ? 'Enviando...' : 'Enviar consulta'}
-          </Button>
-        </form>
-      </motion.div>
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={scrollViewport}
+          variants={fadeInUp}
+          className="relative"
+        >
+          <motion.div
+            initial={{ scale: 0, rotate: -20 }}
+            whileInView={{ scale: 1, rotate: -8 }}
+            viewport={scrollViewport}
+            transition={{ type: 'spring', stiffness: 220, damping: 16, delay: 0.3 }}
+            className="absolute -left-4 -top-4 z-10 flex h-14 w-14 items-center justify-center rounded-2xl bg-sage-900 text-mustard-300 shadow-lg md:-left-6 md:-top-6"
+          >
+            <FileText size={22} />
+          </motion.div>
+
+          <form
+            onSubmit={handleSubmit(onSubmit, () =>
+              toastWarning('Completá los campos obligatorios')
+            )}
+            className="space-y-4 rounded-3xl bg-white p-6 shadow-xl shadow-mustard-900/10 md:p-8"
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-sage-700">Nombre</label>
+                <Input {...register('name')} placeholder="Tu nombre" />
+                {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>}
+              </div>
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-sage-700">Teléfono</label>
+                <Input {...register('phone')} placeholder="388 4123456" />
+                {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone.message}</p>}
+              </div>
+            </div>
+
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-sage-700">
+                Tipo de consulta
+              </label>
+              <select
+                {...register('consultationType')}
+                className="w-full rounded-lg border border-sage-200 bg-white px-4 py-2.5 text-sm focus:border-sage-500 focus:outline-none focus:ring-1 focus:ring-sage-500"
+              >
+                <option value="sol">Lentes de sol</option>
+                <option value="contacto">Lentes de contacto</option>
+                <option value="receta">Lentes recetados</option>
+                <option value="otro">Otra consulta</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-sage-700">Mensaje</label>
+              <textarea
+                {...register('message')}
+                rows={4}
+                placeholder="Contanos brevemente qué estás buscando"
+                className="w-full rounded-lg border border-sage-200 bg-white px-4 py-2.5 text-sm focus:border-sage-500 focus:outline-none focus:ring-1 focus:ring-sage-500"
+              />
+              {errors.message && (
+                <p className="mt-1 text-xs text-red-600">{errors.message.message}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-sage-700">
+                Adjuntar receta <span className="font-normal text-sage-400">(opcional)</span>
+              </label>
+              {file ? (
+                <div className="flex items-center justify-between rounded-lg border border-sage-200 bg-sage-50 px-4 py-2.5 text-sm text-sage-700">
+                  <span className="truncate">{file.name}</span>
+                  <button
+                    type="button"
+                    onClick={() => setFile(null)}
+                    aria-label="Quitar archivo"
+                    className="text-sage-400 hover:text-sage-700"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              ) : (
+                <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-dashed border-sage-300 px-4 py-2.5 text-sm text-sage-500 transition hover:border-sage-500 hover:text-sage-700">
+                  <Paperclip size={16} />
+                  Subir imagen o PDF (máx. 5MB)
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,application/pdf"
+                    className="hidden"
+                    onChange={handleFileChange}
+                  />
+                </label>
+              )}
+              {fileError && <p className="mt-1 text-xs text-red-600">{fileError}</p>}
+            </div>
+
+            <Button type="submit" disabled={submitting} className="w-full">
+              {submitting ? 'Enviando...' : 'Enviar consulta'}
+            </Button>
+          </form>
+        </motion.div>
+      </div>
     </section>
   );
 }
