@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  html,
+  body {
+    @apply overflow-x-hidden;
+  }
   body {
     @apply bg-bone text-sage-900 font-body antialiased pb-16 md:pb-0;
   }
