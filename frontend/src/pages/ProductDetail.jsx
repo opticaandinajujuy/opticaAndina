@@ -61,7 +61,7 @@ function ProductDetail() {
                   <img
                     src={optimizedImage(product.images[activeImage], 800)}
                     alt={product.name}
-                    className="h-full w-full object-contain p-6"
+                    className="h-full w-full object-cover"
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-sage-300">
