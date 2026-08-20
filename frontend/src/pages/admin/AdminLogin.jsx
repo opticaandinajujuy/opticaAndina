@@ -56,7 +56,7 @@ function AdminLogin() {
         className="relative w-full max-w-sm rounded-3xl border border-white/15 bg-white/10 p-8 shadow-2xl shadow-black/30 backdrop-blur-xl"
       >
         <div className="mb-8 flex flex-col items-center">
-          <Logo className="h-14 w-14" />
+          <Logo className="h-14 w-auto" />
           <h1 className="mt-3 font-heading text-lg font-bold text-bone">Panel admin</h1>
           <p className="text-sm text-sage-200/80">Óptica Andina</p>
         </div>
