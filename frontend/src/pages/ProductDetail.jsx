@@ -37,7 +37,7 @@ function ProductDetail() {
     <>
       <Navbar />
 
-      <main className="mx-auto max-w-5xl px-6 py-10 md:px-8 md:pt-44">
+      <main className="mx-auto max-w-5xl px-6 py-10 md:px-8 md:pt-32">
         <Link
           to="/#catalogo"
           className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-sage-600 hover:text-sage-900"
