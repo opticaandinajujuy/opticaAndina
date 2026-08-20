@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Instagram } from 'lucide-react';
+import { Instagram, Facebook } from 'lucide-react';
 import Logo from '../ui/Logo.jsx';
 import { buildWhatsappLink } from '../../lib/whatsapp.js';
+
+const FACEBOOK_URL = 'https://www.facebook.com/opticandinajujuy/';
 
 const links = [
   { label: 'Catálogo', href: '#catalogo' },
@@ -41,12 +43,7 @@ function Navbar({ overlay = false }) {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-8 py-4">
         <Link to="/" className="shrink-0">
           <motion.div whileHover={{ scale: 1.05, rotate: -2 }} whileTap={{ scale: 0.95 }}>
-            <Logo
-              className="h-24 w-24"
-              withLabel
-              labelClassName="text-base tracking-wide"
-              labelColorClassName={scrolled ? 'text-sage-800' : 'text-bone'}
-            />
+            <Logo className="h-16 w-auto" />
           </motion.div>
         </Link>
 
@@ -78,6 +75,19 @@ function Navbar({ overlay = false }) {
             }`}
           >
             <Instagram size={20} strokeWidth={1.75} />
+          </motion.a>
+          <motion.a
+            href={FACEBOOK_URL}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Facebook de Óptica Andina"
+            whileHover={{ scale: 1.15, rotate: 8 }}
+            whileTap={{ scale: 0.9 }}
+            className={`transition-colors ${
+              scrolled ? 'text-sage-600 hover:text-sage-900' : 'text-bone hover:text-mustard-200'
+            }`}
+          >
+            <Facebook size={20} strokeWidth={1.75} />
           </motion.a>
           <motion.a
             href={buildWhatsappLink('Hola! Quisiera hacer una consulta.')}
