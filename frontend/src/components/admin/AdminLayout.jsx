@@ -26,7 +26,7 @@ function AdminLayout({ title, children }) {
       <header className="border-b border-sage-100 bg-white">
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6 sm:py-4">
           <Link to="/admin" className="flex shrink-0 items-center gap-2">
-            <Logo className="h-8 w-8 sm:h-9 sm:w-9" />
+            <Logo className="h-8 w-auto sm:h-9" />
             <span className="hidden font-heading text-sm font-semibold text-sage-800 sm:inline">
               Panel admin
             </span>
