@@ -1,11 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Glasses, FileText, Phone, Menu, X, Instagram, MapPin } from 'lucide-react';
+import { Glasses, FileText, Phone, Menu, X, Instagram, Facebook, MapPin } from 'lucide-react';
 import { useUiStore } from '../../store/useUiStore.js';
 import Logo from '../ui/Logo.jsx';
 import { buildWhatsappLink } from '../../lib/whatsapp.js';
 
 const MotionLink = motion(Link);
+const FACEBOOK_URL = 'https://www.facebook.com/opticandinajujuy/';
 
 const items = [
   { label: 'Catálogo', href: '/#catalogo', icon: Glasses },
@@ -45,7 +46,7 @@ function BottomNav() {
             className="fixed inset-x-0 bottom-16 z-40 rounded-t-3xl bg-white p-6 shadow-2xl md:hidden"
           >
             <div className="mb-5 flex items-center justify-between">
-              <Logo className="h-9 w-9" withLabel labelClassName="text-xs" />
+              <Logo className="h-10 w-auto" />
               <button
                 onClick={toggle}
                 aria-label="Cerrar menú"
@@ -73,9 +74,17 @@ function BottomNav() {
               href={import.meta.env.VITE_INSTAGRAM_URL}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-2 py-3 font-heading text-base font-medium text-sage-800"
+              className="flex items-center gap-2 border-b border-sage-100 py-3 font-heading text-base font-medium text-sage-800"
             >
               <Instagram size={17} /> @opticaandinajujuy
+            </a>
+            <a
+              href={FACEBOOK_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-2 py-3 font-heading text-base font-medium text-sage-800"
+            >
+              <Facebook size={17} /> Facebook
             </a>
           </motion.div>
         )}
