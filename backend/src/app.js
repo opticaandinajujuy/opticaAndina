@@ -9,6 +9,12 @@ const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 
 const app = express();
 
+app.set('etag', false);
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store');
+  next();
+});
+
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
