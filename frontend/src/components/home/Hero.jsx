@@ -19,7 +19,7 @@ function Hero() {
           objectFit: 'cover',
           objectPosition: 'center',
         }}
-        src="https://res.cloudinary.com/dabikk5ei/video/upload/v1787160008/Video_Project_1_vlmomf.mp4"
+        src="https://res.cloudinary.com/wf4comu9/video/upload/v1787326283/optica-andina/assets/i9avmgp5gc9zfhx9duhv.mp4"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-sage-900/85 via-sage-900/65 to-sage-900/90" />
       <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-sage-900 to-transparent" />

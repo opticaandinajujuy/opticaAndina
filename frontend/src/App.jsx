@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
 import Home from './pages/Home.jsx';
 import ProductDetail from './pages/ProductDetail.jsx';
 import AdminLogin from './pages/admin/AdminLogin.jsx';
@@ -11,20 +10,6 @@ import ProtectedRoute from './components/admin/ProtectedRoute.jsx';
 import WhatsAppButton from './components/layout/WhatsAppButton.jsx';
 import BottomNav from './components/layout/BottomNav.jsx';
 
-const pageVariants = {
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } },
-  exit: { opacity: 0, y: -12, transition: { duration: 0.2, ease: 'easeIn' } },
-};
-
-function Page({ children }) {
-  return (
-    <motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit">
-      {children}
-    </motion.div>
-  );
-}
-
 function App() {
   const location = useLocation();
 
@@ -33,7 +18,7 @@ function App() {
       const id = location.hash.slice(1);
       const timeout = setTimeout(() => {
         document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 300);
+      }, 150);
       return () => clearTimeout(timeout);
     }
     window.scrollTo(0, 0);
@@ -41,38 +26,36 @@ function App() {
 
   return (
     <>
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Page><Home /></Page>} />
-          <Route path="/productos/:id" element={<Page><ProductDetail /></Page>} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/productos/:id" element={<ProductDetail />} />
 
-          <Route path="/admin/login" element={<Page><AdminLogin /></Page>} />
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute>
-                <Page><AdminDashboard /></Page>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/productos"
-            element={
-              <ProtectedRoute>
-                <Page><AdminProducts /></Page>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/consultas"
-            element={
-              <ProtectedRoute>
-                <Page><AdminQuotes /></Page>
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </AnimatePresence>
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/productos"
+          element={
+            <ProtectedRoute>
+              <AdminProducts />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/consultas"
+          element={
+            <ProtectedRoute>
+              <AdminQuotes />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
 
       <WhatsAppButton />
       <BottomNav />

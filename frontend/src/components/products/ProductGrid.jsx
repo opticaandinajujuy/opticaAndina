@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { getProducts } from '../../services/productService.js';
@@ -18,6 +18,20 @@ function ProductGrid() {
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
   const [total, setTotal] = useState(0);
+  const sectionRef = useRef(null);
+  const isFirstRender = useRef(true);
+
+  // al cambiar de página, volver siempre al techo del catálogo — evita que
+  // una página más corta (la última) deje el scroll caído sobre la sección
+  // siguiente. Corre en un efecto (no en el click) para no depender de que
+  // React ya haya vuelto a renderizar.
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [page]);
 
   // debounce solo la búsqueda por texto, no la carga inicial ni los clicks
   useEffect(() => {
@@ -61,7 +75,7 @@ function ProductGrid() {
   }, [category, debouncedSearch, page, setProducts]);
 
   return (
-    <section id="catalogo" className="relative overflow-hidden px-6 py-20 md:px-8">
+    <section ref={sectionRef} id="catalogo" className="relative overflow-hidden px-6 py-20 md:px-8">
       <span className="pointer-events-none absolute -top-6 left-1/2 hidden -translate-x-1/2 select-none whitespace-nowrap font-heading text-[13vw] font-extrabold leading-none text-sage-900/[0.035] md:block">
         CATÁLOGO
       </span>
@@ -83,7 +97,7 @@ function ProductGrid() {
         </div>
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <ProductFilters value={category} onChange={setCategory} />
+          <ProductFilters value={category} onChange={setCategory} layoutId="catalog-filter-pill" />
           <ProductSearch value={search} onChange={setSearch} />
         </div>
       </motion.div>

@@ -29,7 +29,9 @@ function ProductCard({ product }) {
               src={optimizedImage(product.images[0], 500)}
               alt={product.name}
               loading="lazy"
-              className="h-full w-full object-cover transition duration-500 ease-out group-hover:scale-105"
+              className={`h-full w-full transition duration-500 ease-out group-hover:scale-105 ${
+                product.category === 'contacto' ? 'object-contain p-4' : 'object-cover'
+              }`}
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center text-sage-300">
