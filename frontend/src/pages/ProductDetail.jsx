@@ -61,7 +61,9 @@ function ProductDetail() {
                   <img
                     src={optimizedImage(product.images[activeImage], 800)}
                     alt={product.name}
-                    className="h-full w-full object-cover"
+                    className={`h-full w-full ${
+                      product.category === 'contacto' ? 'object-contain p-6' : 'object-cover'
+                    }`}
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-sage-300">
@@ -83,7 +85,9 @@ function ProductDetail() {
                         src={optimizedImage(img, 100)}
                         alt=""
                         loading="lazy"
-                        className="h-full w-full object-cover"
+                        className={`h-full w-full ${
+                          product.category === 'contacto' ? 'object-contain p-1 bg-white' : 'object-cover'
+                        }`}
                       />
                     </button>
                   ))}

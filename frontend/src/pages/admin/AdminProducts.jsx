@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import AdminLayout from '../../components/admin/AdminLayout.jsx';
 import ProductTable from '../../components/admin/ProductTable.jsx';
 import ProductForm from '../../components/admin/ProductForm.jsx';
+import ProductFilters from '../../components/products/ProductFilters.jsx';
 import Input from '../../components/ui/Input.jsx';
 import Button from '../../components/ui/Button.jsx';
 import { confirmAction, toastSuccess, toastError } from '../../lib/toast.js';
@@ -21,7 +22,7 @@ function AdminProducts() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
-  const [category, setCategory] = useState('all');
+  const [category, setCategory] = useState('sol');
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
   const [total, setTotal] = useState(0);
@@ -33,7 +34,7 @@ function AdminProducts() {
     setLoading(true);
     try {
       const { data } = await getProducts({
-        category: category !== 'all' ? category : undefined,
+        category,
         search: debouncedSearch || undefined,
         page,
         limit: PAGE_SIZE,
@@ -127,8 +128,8 @@ function AdminProducts() {
 
   return (
     <AdminLayout title="Productos">
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap items-center gap-3">
+      <div className="mb-5 flex flex-col gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="relative">
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-sage-400" />
             <Input
@@ -138,21 +139,13 @@ function AdminProducts() {
               className="pl-9"
             />
           </div>
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="rounded-lg border border-sage-200 bg-white px-4 py-2.5 text-sm focus:border-sage-500 focus:outline-none focus:ring-1 focus:ring-sage-500"
-          >
-            <option value="all">Todas las categorías</option>
-            <option value="sol">Sol</option>
-            <option value="contacto">Contacto</option>
-            <option value="receta">Receta</option>
-          </select>
+
+          <Button onClick={openCreate} className="flex items-center gap-1.5">
+            <Plus size={16} /> Nuevo producto
+          </Button>
         </div>
 
-        <Button onClick={openCreate} className="flex items-center gap-1.5">
-          <Plus size={16} /> Nuevo producto
-        </Button>
+        <ProductFilters value={category} onChange={setCategory} layoutId="admin-filter-pill" />
       </div>
 
       {loading ? (

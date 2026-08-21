@@ -1,13 +1,12 @@
 import { motion } from 'framer-motion';
 
 const categories = [
-  { value: 'all', label: 'Todos' },
   { value: 'sol', label: 'Lentes de sol' },
   { value: 'contacto', label: 'Lentes de contacto' },
   { value: 'receta', label: 'Lentes recetados' },
 ];
 
-function ProductFilters({ value, onChange }) {
+function ProductFilters({ value, onChange, layoutId = 'filter-pill' }) {
   return (
     <div className="flex flex-wrap gap-2">
       {categories.map((cat) => {
@@ -25,7 +24,7 @@ function ProductFilters({ value, onChange }) {
           >
             {active && (
               <motion.span
-                layoutId="filter-pill"
+                layoutId={layoutId}
                 transition={{ type: 'spring', stiffness: 400, damping: 32 }}
                 className="absolute inset-0 rounded-full bg-sage-700"
               />
