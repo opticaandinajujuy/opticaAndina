@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Glasses, MessageSquareText, ArrowRight } from 'lucide-react';
+import { Glasses, MessageSquareText, ArrowRight, ShoppingBag } from 'lucide-react';
 import AdminLayout from '../../components/admin/AdminLayout.jsx';
 import { getProducts } from '../../services/productService.js';
 import { getQuotes } from '../../services/quoteService.js';
+import { getOrders } from '../../services/orderService.js';
 
 function AdminDashboard() {
   const [productCount, setProductCount] = useState(null);
   const [pendingCount, setPendingCount] = useState(null);
+  const [orderCount, setOrderCount] = useState(null);
 
   useEffect(() => {
     getProducts({ limit: 1 })
@@ -16,6 +18,9 @@ function AdminDashboard() {
       .catch(() => {});
     getQuotes({ status: 'pending' })
       .then(({ data }) => setPendingCount(data.length))
+      .catch(() => {});
+    getOrders({ status: 'approved', limit: 1 })
+      .then(({ data }) => setOrderCount(data.total))
       .catch(() => {});
   }, []);
 
@@ -37,6 +42,15 @@ function AdminDashboard() {
       description: 'Ver presupuestos y marcar consultas atendidas',
       count: pendingCount,
       countLabel: 'pendientes',
+    },
+    {
+      to: '/admin/pedidos',
+      icon: ShoppingBag,
+      iconBg: 'bg-sage-100 text-sage-700',
+      title: 'Pedidos',
+      description: 'Ver los pagos de Mercado Pago y coordinar la entrega',
+      count: orderCount,
+      countLabel: 'aprobados',
     },
   ];
 
