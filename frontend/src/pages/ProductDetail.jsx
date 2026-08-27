@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, MessageCircle } from 'lucide-react';
+import { ArrowLeft, MessageCircle, CreditCard } from 'lucide-react';
 import Navbar from '../components/layout/Navbar.jsx';
 import Footer from '../components/layout/Footer.jsx';
 import { getProductById } from '../services/productService.js';
+import { createPaymentPreference } from '../services/paymentService.js';
 import { formatPrice } from '../lib/utils.js';
 import { buildProductInquiryLink } from '../lib/whatsapp.js';
 import { optimizedImage } from '../lib/cloudinaryTransform.js';
+import { toastError } from '../lib/toast.js';
+import BuyerInfoModal from '../components/products/BuyerInfoModal.jsx';
 
 const categoryLabels = {
   sol: 'Lentes de sol',
   contacto: 'Lentes de contacto',
   receta: 'Lentes recetados',
+  accesorios: 'Accesorios para anteojos',
 };
 
 function ProductDetail() {
@@ -20,6 +24,21 @@ function ProductDetail() {
   const [activeImage, setActiveImage] = useState(0);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [buying, setBuying] = useState(false);
+  const [showBuyerModal, setShowBuyerModal] = useState(false);
+
+  const handleBuy = async ({ buyerName, buyerPhone }) => {
+    setBuying(true);
+    try {
+      const { data } = await createPaymentPreference(product._id, buyerName, buyerPhone);
+      window.location.href = data.initPoint;
+    } catch (error) {
+      toastError(
+        error.response?.data?.message || 'No pudimos iniciar el pago, probá de nuevo.'
+      );
+      setBuying(false);
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -159,18 +178,44 @@ function ProductDetail() {
                 </div>
               )}
 
-              <a
-                href={buildProductInquiryLink(product.name)}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-mustard-400 py-3.5 font-heading text-sm font-semibold text-sage-900 shadow-sm transition hover:bg-mustard-500"
-              >
-                <MessageCircle size={17} /> Consultar
-              </a>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                {product.price && product.stock > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setShowBuyerModal(true)}
+                    disabled={buying}
+                    className="flex w-full items-center justify-center gap-2 rounded-full bg-sage-700 py-3.5 font-heading text-sm font-semibold text-bone shadow-sm transition hover:bg-sage-800 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    <CreditCard size={17} />
+                    {buying ? 'Redirigiendo...' : 'Comprar'}
+                  </button>
+                )}
+                {product.price && product.stock === 0 && (
+                  <span className="flex w-full items-center justify-center rounded-full bg-sage-50 py-3.5 font-heading text-sm font-semibold text-sage-400">
+                    Sin stock
+                  </span>
+                )}
+                <a
+                  href={buildProductInquiryLink(product.name)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-mustard-400 py-3.5 font-heading text-sm font-semibold text-sage-900 shadow-sm transition hover:bg-mustard-500"
+                >
+                  <MessageCircle size={17} /> Consultar
+                </a>
+              </div>
             </div>
           </div>
         )}
       </main>
+
+      {showBuyerModal && (
+        <BuyerInfoModal
+          onSubmit={handleBuy}
+          onClose={() => setShowBuyerModal(false)}
+          submitting={buying}
+        />
+      )}
 
       <Footer />
     </>
