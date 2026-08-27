@@ -58,6 +58,11 @@ function ContactSection() {
         <h2 className="mt-2 font-heading text-4xl font-bold leading-tight text-sage-900 md:text-5xl">
           Estamos para ayudarte
         </h2>
+        <p className="mt-3 max-w-xl text-sm leading-relaxed text-sage-600 md:text-base">
+          7 años acompañando a las familias jujeñas. Más de 20 años de
+          experiencia, brindando confianza, calidad y atención
+          personalizada.
+        </p>
       </motion.div>
 
       <div className="grid gap-6 md:grid-cols-2 md:items-stretch">
@@ -101,7 +106,7 @@ function ContactSection() {
           variants={fadeInUp}
           whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.99 }}
-          className="group relative flex flex-col justify-between overflow-hidden rounded-3xl bg-gradient-to-br from-sage-700 to-sage-900 p-8 text-bone"
+          className="group relative flex flex-col justify-between overflow-hidden rounded-3xl bg-sage-500 p-8 text-bone"
         >
           <motion.div
             animate={{ scale: [1, 1.25, 1] }}
