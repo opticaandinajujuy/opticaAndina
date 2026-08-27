@@ -58,9 +58,9 @@ function ProductGrid() {
     })
       .then(({ data }) => {
         if (!active) return;
-        setProducts(data.items);
-        setPages(data.pages);
-        setTotal(data.total);
+        setProducts(data?.items ?? []);
+        setPages(data?.pages ?? 1);
+        setTotal(data?.total ?? 0);
       })
       .catch(() => {
         if (active) setErrored(true);

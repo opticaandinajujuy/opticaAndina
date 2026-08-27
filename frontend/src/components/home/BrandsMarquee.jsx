@@ -20,7 +20,7 @@ function BrandsMarquee() {
   const duration = brands.length * 2.4;
 
   return (
-    <section className="overflow-hidden border-t border-sage-800 bg-sage-900 py-7">
+    <section className="overflow-hidden border-t border-sage-600 bg-sage-500 py-7">
       <motion.div
         className="flex w-max items-center"
         animate={{ x: ['0%', '-50%'] }}

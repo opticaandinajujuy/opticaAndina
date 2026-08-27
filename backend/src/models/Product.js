@@ -6,8 +6,13 @@ const productSchema = new mongoose.Schema(
     description: { type: String, default: '' },
     category: {
       type: String,
-      enum: ['sol', 'contacto', 'receta'],
+      enum: ['sol', 'contacto', 'receta', 'accesorios'],
       required: true,
+    },
+    subcategory: {
+      type: String,
+      enum: ['panos', 'colgantes', 'liquidos'],
+      required: false,
     },
     price: { type: Number, min: 0 },
     images: [{ type: String }], // Cloudinary URLs

@@ -1,11 +1,14 @@
-import { Pencil, Trash2, EyeOff } from 'lucide-react';
+import { Pencil, Trash2, EyeOff, AlertTriangle } from 'lucide-react';
 import { formatPrice } from '../../lib/utils.js';
 
 const categoryLabels = {
   sol: 'Sol',
   contacto: 'Contacto',
   receta: 'Receta',
+  accesorios: 'Accesorios',
 };
+
+const LOW_STOCK_THRESHOLD = 3;
 
 function ProductTable({ products, onEdit, onDelete }) {
   if (products.length === 0) {
@@ -48,7 +51,19 @@ function ProductTable({ products, onEdit, onDelete }) {
               <td className="px-4 py-3 text-sage-600">
                 {product.price ? formatPrice(product.price) : '—'}
               </td>
-              <td className="px-4 py-3 text-sage-600">{product.stock ?? '—'}</td>
+              <td className="px-4 py-3">
+                <span className="text-sage-600">{product.stock ?? '—'}</span>
+                {product.stock === 0 && (
+                  <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-0.5 text-xs font-medium text-red-600">
+                    <AlertTriangle size={11} /> Sin stock
+                  </span>
+                )}
+                {product.stock > 0 && product.stock <= LOW_STOCK_THRESHOLD && (
+                  <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-mustard-100 px-2 py-0.5 text-xs font-medium text-mustard-700">
+                    <AlertTriangle size={11} /> Poco stock
+                  </span>
+                )}
+              </td>
               <td className="px-4 py-3">
                 {product.active ? (
                   <span className="rounded-full bg-sage-100 px-2.5 py-1 text-xs font-medium text-sage-700">
