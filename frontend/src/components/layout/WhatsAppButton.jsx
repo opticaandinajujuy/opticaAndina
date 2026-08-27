@@ -21,12 +21,12 @@ function WhatsAppButton() {
       transition={{ delay: 0.6, type: 'spring', stiffness: 260, damping: 20 }}
       whileHover={{ scale: 1.08 }}
       whileTap={{ scale: 0.95 }}
-      className="fixed bottom-24 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-sage-900/20 md:bottom-6 md:right-6"
+      className="fixed bottom-24 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-sage-500 text-white shadow-lg shadow-sage-900/20 md:bottom-6 md:right-6"
     >
       <motion.span
         animate={{ scale: [1, 1.6, 1], opacity: [0.5, 0, 0.5] }}
         transition={{ duration: 2.4, repeat: Infinity, ease: 'easeOut' }}
-        className="absolute inset-0 rounded-full bg-[#25D366]"
+        className="absolute inset-0 rounded-full bg-sage-500"
       />
       <WhatsAppIcon className="relative h-7 w-7" />
     </motion.a>
