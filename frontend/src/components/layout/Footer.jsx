@@ -15,10 +15,10 @@ const socialLinks = [
 
 function Footer() {
   return (
-    <footer className="bg-sage-900 text-sage-100">
+    <footer className="bg-sage-500 text-bone">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 py-10 md:flex-row md:justify-between md:px-8">
         <Link to="/">
-          <Logo className="h-16 w-auto" />
+          <Logo className="h-16 w-auto [filter:drop-shadow(0_0_2px_rgba(250,248,243,1))_drop-shadow(0_0_10px_rgba(250,248,243,0.9))]" />
         </Link>
 
         {/* mobile: iconos sociales animados, centrados debajo del logo */}
@@ -32,7 +32,7 @@ function Footer() {
               target="_blank"
               rel="noreferrer"
               aria-label={label}
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-white/5 text-sage-200 transition-colors hover:bg-mustard-400 hover:text-sage-900"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-bone transition-colors hover:bg-mustard-400 hover:text-sage-900"
             >
               <Icon size={19} />
             </motion.a>
@@ -40,7 +40,7 @@ function Footer() {
         </div>
 
         {/* desktop: links de texto */}
-        <div className="hidden text-sm text-sage-300 md:flex md:items-center md:gap-6">
+        <div className="hidden text-sm text-bone/90 md:flex md:items-center md:gap-6">
           <a
             href={socialLinks[0].href}
             target="_blank"
@@ -68,7 +68,7 @@ function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-sage-800 py-4 text-center text-xs text-sage-400">
+      <div className="border-t border-white/15 py-4 text-center text-xs text-bone/70">
         © {new Date().getFullYear()} Óptica Andina. Todos los derechos reservados.
       </div>
     </footer>

@@ -21,7 +21,7 @@ export const confirmAction = ({
   text,
   confirmButtonText = 'Confirmar',
   icon = 'warning',
-  confirmButtonColor = '#4f6b58',
+  confirmButtonColor = '#5c9c9d',
 }) =>
   Swal.fire({
     icon,
@@ -31,5 +31,5 @@ export const confirmAction = ({
     confirmButtonText,
     cancelButtonText: 'Cancelar',
     confirmButtonColor,
-    cancelButtonColor: '#8a9a8f',
+    cancelButtonColor: '#85b6b7',
   });

@@ -111,7 +111,7 @@ function QuoteForm() {
           <motion.div variants={fadeInUp} className="mt-9 space-y-4">
             {trustPoints.map(({ icon: Icon, text }) => (
               <div key={text} className="flex items-center gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sage-900 text-mustard-300">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sage-500 text-white">
                   <Icon size={16} />
                 </div>
                 <span className="font-heading text-sm font-medium text-sage-800">{text}</span>
@@ -132,7 +132,7 @@ function QuoteForm() {
             whileInView={{ scale: 1, rotate: -8 }}
             viewport={scrollViewport}
             transition={{ type: 'spring', stiffness: 220, damping: 16, delay: 0.3 }}
-            className="absolute -left-4 -top-4 z-10 flex h-14 w-14 items-center justify-center rounded-2xl bg-sage-900 text-mustard-300 shadow-lg md:-left-6 md:-top-6"
+            className="absolute -left-4 -top-4 z-10 flex h-14 w-14 items-center justify-center rounded-2xl bg-sage-500 text-white shadow-lg md:-left-6 md:-top-6"
           >
             <FileText size={22} />
           </motion.div>

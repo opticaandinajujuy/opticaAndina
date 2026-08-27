@@ -4,7 +4,7 @@ import { fadeInUp, staggerChildren } from '../../hooks/useScrollAnimation.js';
 
 function Hero() {
   return (
-    <section className="relative flex min-h-screen w-full items-center overflow-hidden bg-sage-900 md:pt-24">
+    <section className="relative flex min-h-screen w-full flex-col justify-center overflow-hidden bg-sage-700 pb-40 pt-28 md:pb-52 md:pt-32">
       <video
         autoPlay
         loop
@@ -63,12 +63,12 @@ function Hero() {
             variants={fadeInUp}
             className="mt-6 max-w-lg text-base leading-relaxed text-sage-100/85 md:text-lg"
           >
-            7 años como Óptica Andina y más de 20 años de experiencia en el
-            rubro óptico, cuidando tu visión con atención personalizada en
-            San Salvador de Jujuy.
+            7 años acompañando a las familias jujeñas. Más de 20 años de
+            experiencia, brindando confianza, calidad y atención
+            personalizada.
           </motion.p>
 
-          <motion.div variants={fadeInUp} className="mb-16 mt-9 flex flex-wrap gap-4 md:mb-8">
+          <motion.div variants={fadeInUp} className="mt-9 flex flex-wrap gap-4">
             <motion.a
               href="#catalogo"
               whileHover={{ scale: 1.05 }}
@@ -106,14 +106,17 @@ function Hero() {
         />
       </svg>
 
-      <motion.div
+      <motion.a
+        href="#catalogo"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.1, duration: 0.6 }}
-        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 text-bone/60 md:block"
+        whileHover={{ scale: 1.15 }}
+        aria-label="Ver más abajo"
+        className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 text-sage-800 transition-colors hover:text-sage-900"
       >
         <ArrowDown size={20} className="animate-bounce" />
-      </motion.div>
+      </motion.a>
     </section>
   );
 }

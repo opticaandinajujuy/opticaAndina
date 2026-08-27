@@ -1,4 +1,4 @@
-import { FileText, CheckCircle2, Circle } from 'lucide-react';
+import { FileText, CheckCircle2, Circle, Pencil, Trash2 } from 'lucide-react';
 
 const typeLabels = {
   sol: 'Sol',
@@ -17,7 +17,7 @@ function formatDate(value) {
   });
 }
 
-function QuoteTable({ quotes, onToggleStatus }) {
+function QuoteTable({ quotes, onToggleStatus, onEdit, onDelete }) {
   if (quotes.length === 0) {
     return (
       <p className="rounded-xl border border-dashed border-sage-200 py-12 text-center text-sm text-sage-500">
@@ -77,20 +77,36 @@ function QuoteTable({ quotes, onToggleStatus }) {
                 )}
               </td>
               <td className="px-4 py-3">
-                <button
-                  onClick={() => onToggleStatus(quote)}
-                  className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium text-sage-600 transition hover:bg-sage-100 hover:text-sage-900"
-                >
-                  {quote.status === 'attended' ? (
-                    <>
-                      <Circle size={14} /> Marcar pendiente
-                    </>
-                  ) : (
-                    <>
-                      <CheckCircle2 size={14} /> Marcar atendido
-                    </>
-                  )}
-                </button>
+                <div className="flex flex-wrap items-center gap-1">
+                  <button
+                    onClick={() => onToggleStatus(quote)}
+                    className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium text-sage-600 transition hover:bg-sage-100 hover:text-sage-900"
+                  >
+                    {quote.status === 'attended' ? (
+                      <>
+                        <Circle size={14} /> Marcar pendiente
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle2 size={14} /> Marcar atendido
+                      </>
+                    )}
+                  </button>
+                  <button
+                    onClick={() => onEdit(quote)}
+                    aria-label="Editar consulta"
+                    className="rounded-lg p-1.5 text-sage-500 transition hover:bg-sage-100 hover:text-sage-800"
+                  >
+                    <Pencil size={15} />
+                  </button>
+                  <button
+                    onClick={() => onDelete(quote)}
+                    aria-label="Eliminar consulta"
+                    className="rounded-lg p-1.5 text-sage-500 transition hover:bg-red-50 hover:text-red-600"
+                  >
+                    <Trash2 size={15} />
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
