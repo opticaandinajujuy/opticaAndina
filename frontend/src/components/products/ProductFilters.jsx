@@ -4,6 +4,7 @@ const categories = [
   { value: 'sol', label: 'Lentes de sol' },
   { value: 'contacto', label: 'Lentes de contacto' },
   { value: 'receta', label: 'Lentes recetados' },
+  { value: 'accesorios', label: 'Accesorios para anteojos' },
 ];
 
 function ProductFilters({ value, onChange, layoutId = 'filter-pill' }) {
@@ -18,7 +19,7 @@ function ProductFilters({ value, onChange, layoutId = 'filter-pill' }) {
             whileTap={{ scale: 0.95 }}
             className={`relative rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
               active
-                ? 'border-sage-700 text-white'
+                ? 'border-sage-500 text-white'
                 : 'border-sage-200 text-sage-600 hover:border-sage-400'
             }`}
           >
@@ -26,7 +27,7 @@ function ProductFilters({ value, onChange, layoutId = 'filter-pill' }) {
               <motion.span
                 layoutId={layoutId}
                 transition={{ type: 'spring', stiffness: 400, damping: 32 }}
-                className="absolute inset-0 rounded-full bg-sage-700"
+                className="absolute inset-0 rounded-full bg-sage-500"
               />
             )}
             <span className="relative">{cat.label}</span>
