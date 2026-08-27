@@ -1,7 +1,6 @@
 const streamifier = require('streamifier');
 const Quote = require('../models/Quote');
 const cloudinary = require('../config/cloudinary');
-const { sendQuoteNotification } = require('../utils/sendMail');
 
 function uploadToCloudinary(buffer) {
   return new Promise((resolve, reject) => {
@@ -22,10 +21,6 @@ async function createQuote(req, res, next) {
     }
 
     const quote = await Quote.create({ ...req.body, recipeUrl });
-
-    sendQuoteNotification(quote).catch((err) =>
-      console.error('Error enviando notificación de email:', err.message)
-    );
 
     res.status(201).json(quote);
   } catch (error) {
@@ -58,4 +53,29 @@ async function updateQuoteStatus(req, res, next) {
   }
 }
 
-module.exports = { createQuote, getQuotes, updateQuoteStatus };
+async function updateQuote(req, res, next) {
+  try {
+    const { name, phone, consultationType, message } = req.body;
+    const quote = await Quote.findByIdAndUpdate(
+      req.params.id,
+      { name, phone, consultationType, message },
+      { new: true, runValidators: true }
+    );
+    if (!quote) return res.status(404).json({ message: 'Consulta no encontrada' });
+    res.json(quote);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function deleteQuote(req, res, next) {
+  try {
+    const quote = await Quote.findByIdAndDelete(req.params.id);
+    if (!quote) return res.status(404).json({ message: 'Consulta no encontrada' });
+    res.json({ message: 'Consulta eliminada' });
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { createQuote, getQuotes, updateQuoteStatus, updateQuote, deleteQuote };
