@@ -13,6 +13,7 @@ const emptyProduct = {
   name: '',
   description: '',
   category: 'sol',
+  subcategory: '',
   price: '',
   measurements: '',
   features: [],
@@ -87,11 +88,14 @@ function ProductForm({ product, onSubmit, onCancel, submitting }) {
     handleSubmit,
     control,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(productSchema),
     defaultValues: emptyProduct,
   });
+
+  const category = watch('category');
 
   useEffect(() => {
     reset(product ? { ...emptyProduct, ...product } : emptyProduct);
@@ -129,18 +133,50 @@ function ProductForm({ product, onSubmit, onCancel, submitting }) {
             <option value="sol">Lentes de sol</option>
             <option value="contacto">Lentes de contacto</option>
             <option value="receta">Lentes recetados</option>
+            <option value="accesorios">Accesorios para anteojos</option>
           </select>
         </div>
         <div>
           <label className="mb-1.5 block text-sm font-medium text-sage-700">Precio (opcional)</label>
-          <Input type="number" step="0.01" {...register('price')} placeholder="0" />
+          <Input
+            type="number"
+            step="0.01"
+            min="0"
+            onKeyDown={(e) => ['-', 'e', '+'].includes(e.key) && e.preventDefault()}
+            {...register('price')}
+            placeholder="0"
+          />
         </div>
       </div>
+
+      {category === 'accesorios' && (
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-sage-700">Tipo de accesorio</label>
+          <select
+            {...register('subcategory')}
+            className="w-full rounded-lg border border-sage-200 bg-white px-4 py-2.5 text-sm focus:border-sage-500 focus:outline-none focus:ring-1 focus:ring-sage-500"
+          >
+            <option value="">Seleccionar...</option>
+            <option value="panos">Paños</option>
+            <option value="colgantes">Colgantes</option>
+            <option value="liquidos">Líquidos (limpiador de lentes)</option>
+          </select>
+          {errors.subcategory && (
+            <p className="mt-1 text-xs text-red-600">{errors.subcategory.message}</p>
+          )}
+        </div>
+      )}
 
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="mb-1.5 block text-sm font-medium text-sage-700">Stock (opcional)</label>
-          <Input type="number" {...register('stock')} placeholder="0" />
+          <Input
+            type="number"
+            min="0"
+            onKeyDown={(e) => ['-', 'e', '+', '.'].includes(e.key) && e.preventDefault()}
+            {...register('stock')}
+            placeholder="0"
+          />
         </div>
         <div className="flex items-end pb-2.5">
           <label className="flex items-center gap-2 text-sm font-medium text-sage-700">
