@@ -4,29 +4,31 @@ export default {
   theme: {
     extend: {
       colors: {
+        // paleta extraída del isotipo (montaña) del logo de Óptica Andina — #5c9c9d
         sage: {
-          50: '#f2f5f2',
-          100: '#e0e8e2',
-          200: '#c1d1c6',
-          300: '#9bb4a2',
-          400: '#748f7c',
-          500: '#4f6b58', // verde salvia principal
-          600: '#405a49',
-          700: '#33473a',
-          800: '#28382e',
-          900: '#1e2b23',
+          50: '#eff5f6',
+          100: '#d8e8e8',
+          200: '#b2d1d2',
+          300: '#85b6b7',
+          400: '#6ea9aa',
+          500: '#5c9c9d', // verde de marca (logo)
+          600: '#4f8687',
+          700: '#427070',
+          800: '#35595a',
+          900: '#284343',
         },
+        // amarillo extraído del sol del isotipo del logo
         mustard: {
-          50: '#fbf6e9',
-          100: '#f5e8c2',
-          200: '#eed699',
-          300: '#e5c26c',
-          400: '#dcae48', // dorado mostaza
-          500: '#c9962f',
-          600: '#a67824',
-          700: '#7d591c',
-          800: '#553c13',
-          900: '#33240b',
+          50: '#fbf9e9',
+          100: '#f5f0c2',
+          200: '#eee699',
+          300: '#e5d96c',
+          400: '#dccd48', // amarillo de marca (logo)
+          500: '#c9ba2f',
+          600: '#a69924',
+          700: '#7d731c',
+          800: '#554e13',
+          900: '#332f0b',
         },
         bone: '#faf8f3',
       },

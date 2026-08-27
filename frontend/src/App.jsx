@@ -2,10 +2,12 @@ import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import ProductDetail from './pages/ProductDetail.jsx';
+import PaymentResult from './pages/PaymentResult.jsx';
 import AdminLogin from './pages/admin/AdminLogin.jsx';
 import AdminDashboard from './pages/admin/AdminDashboard.jsx';
 import AdminProducts from './pages/admin/AdminProducts.jsx';
 import AdminQuotes from './pages/admin/AdminQuotes.jsx';
+import AdminOrders from './pages/admin/AdminOrders.jsx';
 import ProtectedRoute from './components/admin/ProtectedRoute.jsx';
 import WhatsAppButton from './components/layout/WhatsAppButton.jsx';
 import BottomNav from './components/layout/BottomNav.jsx';
@@ -29,6 +31,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/productos/:id" element={<ProductDetail />} />
+        <Route path="/pago/exito" element={<PaymentResult status="exito" />} />
+        <Route path="/pago/error" element={<PaymentResult status="error" />} />
+        <Route path="/pago/pendiente" element={<PaymentResult status="pendiente" />} />
 
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route
@@ -52,6 +57,14 @@ function App() {
           element={
             <ProtectedRoute>
               <AdminQuotes />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/pedidos"
+          element={
+            <ProtectedRoute>
+              <AdminOrders />
             </ProtectedRoute>
           }
         />
