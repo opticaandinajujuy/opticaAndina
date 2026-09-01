@@ -6,6 +6,8 @@ const categoryLabels = {
   contacto: 'Contacto',
   receta: 'Receta',
   accesorios: 'Accesorios',
+  liquidos_contacto: 'Líquidos',
+  estuches_contacto: 'Estuches',
 };
 
 const LOW_STOCK_THRESHOLD = 3;
