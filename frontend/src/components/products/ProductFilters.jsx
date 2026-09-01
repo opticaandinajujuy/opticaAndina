@@ -1,10 +1,12 @@
 import { motion } from 'framer-motion';
 
 const categories = [
-  { value: 'sol', label: 'Lentes de sol' },
+  { value: 'sol', label: 'Anteojos para sol' },
   { value: 'contacto', label: 'Lentes de contacto' },
-  { value: 'receta', label: 'Lentes recetados' },
+  { value: 'receta', label: 'Armazones para receta' },
   { value: 'accesorios', label: 'Accesorios para anteojos' },
+  { value: 'liquidos_contacto', label: 'Líquidos para lentes de contacto' },
+  { value: 'estuches_contacto', label: 'Estuches para lentes de contacto' },
 ];
 
 function ProductFilters({ value, onChange, layoutId = 'filter-pill' }) {
