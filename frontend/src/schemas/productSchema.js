@@ -5,7 +5,14 @@ const emptyToUndefined = (val) => (val === '' || val === null ? undefined : val)
 export const productSchema = z.object({
   name: z.string().min(2, 'El nombre es obligatorio'),
   description: z.string().optional(),
-  category: z.enum(['sol', 'contacto', 'receta', 'accesorios']),
+  category: z.enum([
+    'sol',
+    'contacto',
+    'receta',
+    'accesorios',
+    'liquidos_contacto',
+    'estuches_contacto',
+  ]),
   subcategory: z.preprocess(
     emptyToUndefined,
     z.enum(['panos', 'colgantes', 'liquidos']).optional()

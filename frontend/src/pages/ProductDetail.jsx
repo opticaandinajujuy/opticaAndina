@@ -12,10 +12,12 @@ import { toastError } from '../lib/toast.js';
 import BuyerInfoModal from '../components/products/BuyerInfoModal.jsx';
 
 const categoryLabels = {
-  sol: 'Lentes de sol',
+  sol: 'Anteojos para sol',
   contacto: 'Lentes de contacto',
-  receta: 'Lentes recetados',
+  receta: 'Armazones para receta',
   accesorios: 'Accesorios para anteojos',
+  liquidos_contacto: 'Líquidos para lentes de contacto',
+  estuches_contacto: 'Estuches para lentes de contacto',
 };
 
 function ProductDetail() {

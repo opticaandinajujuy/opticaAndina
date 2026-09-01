@@ -3,9 +3,9 @@ import Input from '../ui/Input.jsx';
 import Button from '../ui/Button.jsx';
 
 const typeOptions = [
-  { value: 'sol', label: 'Lentes de sol' },
+  { value: 'sol', label: 'Anteojos para sol' },
   { value: 'contacto', label: 'Lentes de contacto' },
-  { value: 'receta', label: 'Lentes recetados' },
+  { value: 'receta', label: 'Armazones para receta' },
   { value: 'otro', label: 'Otra consulta' },
 ];
 
