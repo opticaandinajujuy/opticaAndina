@@ -8,8 +8,10 @@ import AdminDashboard from './pages/admin/AdminDashboard.jsx';
 import AdminProducts from './pages/admin/AdminProducts.jsx';
 import AdminQuotes from './pages/admin/AdminQuotes.jsx';
 import AdminOrders from './pages/admin/AdminOrders.jsx';
+import AdminBrands from './pages/admin/AdminBrands.jsx';
 import ProtectedRoute from './components/admin/ProtectedRoute.jsx';
 import WhatsAppButton from './components/layout/WhatsAppButton.jsx';
+import ScrollToggleButton from './components/layout/ScrollToggleButton.jsx';
 import BottomNav from './components/layout/BottomNav.jsx';
 
 function App() {
@@ -68,9 +70,18 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/admin/marcas"
+          element={
+            <ProtectedRoute>
+              <AdminBrands />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
       <WhatsAppButton />
+      <ScrollToggleButton />
       <BottomNav />
     </>
   );
