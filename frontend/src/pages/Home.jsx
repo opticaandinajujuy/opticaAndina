@@ -15,12 +15,12 @@ function Home() {
       <Navbar overlay />
       <Hero />
       <BrandsMarquee />
+      <LogosCarousel />
       <ProductGrid />
       <QuoteForm />
       <About />
       <Testimonials />
       <ContactSection />
-      <LogosCarousel />
       <Footer />
     </>
   );
