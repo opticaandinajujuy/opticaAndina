@@ -7,6 +7,7 @@ import Testimonials from '../components/home/Testimonials.jsx';
 import ContactSection from '../components/home/ContactSection.jsx';
 import Footer from '../components/layout/Footer.jsx';
 import BrandsMarquee from '../components/home/BrandsMarquee.jsx';
+import LogosCarousel from '../components/home/LogosCarousel.jsx';
 
 function Home() {
   return (
@@ -19,6 +20,7 @@ function Home() {
       <About />
       <Testimonials />
       <ContactSection />
+      <LogosCarousel />
       <Footer />
     </>
   );

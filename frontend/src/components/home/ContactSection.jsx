@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { MapPin, Clock, Instagram, ArrowUpRight, CreditCard } from 'lucide-react';
+import { MapPin, Clock, Instagram, ArrowUpRight, CreditCard, Navigation } from 'lucide-react';
 import { contactContent } from '../../data/contactContent.js';
 import { fadeInUp, scrollViewport, staggerChildren } from '../../hooks/useScrollAnimation.js';
 import { buildWhatsappLink } from '../../lib/whatsapp.js';
@@ -10,7 +10,19 @@ const infoItems = [
   {
     icon: MapPin,
     title: 'Dirección',
-    content: <p className="text-sm text-sage-600">{contactContent.address}</p>,
+    content: (
+      <>
+        <p className="text-sm text-sage-600">{contactContent.address}</p>
+        <a
+          href={contactContent.mapsUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-sage-700 hover:text-sage-900"
+        >
+          <Navigation size={12} /> Cómo llegar
+        </a>
+      </>
+    ),
   },
   {
     icon: Clock,

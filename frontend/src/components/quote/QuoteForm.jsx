@@ -164,9 +164,9 @@ function QuoteForm() {
                 {...register('consultationType')}
                 className="w-full rounded-lg border border-sage-200 bg-white px-4 py-2.5 text-sm focus:border-sage-500 focus:outline-none focus:ring-1 focus:ring-sage-500"
               >
-                <option value="sol">Lentes de sol</option>
+                <option value="sol">Anteojos para sol</option>
                 <option value="contacto">Lentes de contacto</option>
-                <option value="receta">Lentes recetados</option>
+                <option value="receta">Armazones para receta</option>
                 <option value="otro">Otra consulta</option>
               </select>
             </div>

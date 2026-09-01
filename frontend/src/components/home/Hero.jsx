@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { ArrowDown } from 'lucide-react';
 import { fadeInUp, staggerChildren } from '../../hooks/useScrollAnimation.js';
 
 function Hero() {
@@ -105,18 +104,6 @@ function Hero() {
           fill="#faf8f3"
         />
       </svg>
-
-      <motion.a
-        href="#catalogo"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.1, duration: 0.6 }}
-        whileHover={{ scale: 1.15 }}
-        aria-label="Ver más abajo"
-        className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 text-sage-800 transition-colors hover:text-sage-900"
-      >
-        <ArrowDown size={20} className="animate-bounce" />
-      </motion.a>
     </section>
   );
 }

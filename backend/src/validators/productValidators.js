@@ -3,7 +3,7 @@ const { body } = require('express-validator');
 const productValidator = [
   body('name').trim().notEmpty().withMessage('El nombre es obligatorio'),
   body('category')
-    .isIn(['sol', 'contacto', 'receta', 'accesorios'])
+    .isIn(['sol', 'contacto', 'receta', 'accesorios', 'liquidos_contacto', 'estuches_contacto'])
     .withMessage('Categoría inválida'),
   body('subcategory')
     .optional({ checkFalsy: true })
