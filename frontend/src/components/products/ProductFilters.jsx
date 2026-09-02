@@ -7,6 +7,7 @@ const categories = [
   { value: 'accesorios', label: 'Accesorios para anteojos' },
   { value: 'liquidos_contacto', label: 'Líquidos para lentes de contacto' },
   { value: 'estuches_contacto', label: 'Estuches para lentes de contacto' },
+  { value: 'outlet', label: 'Outlet' },
 ];
 
 function ProductFilters({ value, onChange, layoutId = 'filter-pill' }) {

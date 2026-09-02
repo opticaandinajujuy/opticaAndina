@@ -136,6 +136,7 @@ function ProductForm({ product, onSubmit, onCancel, submitting }) {
             <option value="accesorios">Accesorios para anteojos</option>
             <option value="liquidos_contacto">Líquidos para lentes de contacto</option>
             <option value="estuches_contacto">Estuches para lentes de contacto</option>
+            <option value="outlet">Outlet</option>
           </select>
         </div>
         <div>
