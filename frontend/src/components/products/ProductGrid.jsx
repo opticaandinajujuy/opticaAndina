@@ -92,7 +92,7 @@ function ProductGrid() {
             Catálogo
           </span>
           <h2 className="mt-2 font-heading text-4xl font-bold leading-tight text-sage-900 md:text-5xl">
-            Encontrá tus próximos lentes
+            Encontrá tus próximos anteojos
           </h2>
         </div>
 

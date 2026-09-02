@@ -18,6 +18,7 @@ const categoryLabels = {
   accesorios: 'Accesorios para anteojos',
   liquidos_contacto: 'Líquidos para lentes de contacto',
   estuches_contacto: 'Estuches para lentes de contacto',
+  outlet: 'Outlet',
 };
 
 function ProductDetail() {

@@ -8,6 +8,7 @@ const categoryLabels = {
   accesorios: 'Accesorios',
   liquidos_contacto: 'Líquidos',
   estuches_contacto: 'Estuches',
+  outlet: 'Outlet',
 };
 
 const LOW_STOCK_THRESHOLD = 3;

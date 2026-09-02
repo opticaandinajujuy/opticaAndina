@@ -12,6 +12,7 @@ export const productSchema = z.object({
     'accesorios',
     'liquidos_contacto',
     'estuches_contacto',
+    'outlet',
   ]),
   subcategory: z.preprocess(
     emptyToUndefined,

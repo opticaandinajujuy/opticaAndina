@@ -6,7 +6,15 @@ const productSchema = new mongoose.Schema(
     description: { type: String, default: '' },
     category: {
       type: String,
-      enum: ['sol', 'contacto', 'receta', 'accesorios', 'liquidos_contacto', 'estuches_contacto'],
+      enum: [
+        'sol',
+        'contacto',
+        'receta',
+        'accesorios',
+        'liquidos_contacto',
+        'estuches_contacto',
+        'outlet',
+      ],
       required: true,
     },
     subcategory: {
