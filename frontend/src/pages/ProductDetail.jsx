@@ -10,6 +10,7 @@ import { buildProductInquiryLink } from '../lib/whatsapp.js';
 import { optimizedImage } from '../lib/cloudinaryTransform.js';
 import { toastError } from '../lib/toast.js';
 import BuyerInfoModal from '../components/products/BuyerInfoModal.jsx';
+import ProductImage from '../components/products/ProductImage.jsx';
 
 const categoryLabels = {
   sol: 'Anteojos para sol',
@@ -80,12 +81,11 @@ function ProductDetail() {
             <div>
               <div className="aspect-square overflow-hidden rounded-2xl border border-sage-100 bg-white">
                 {product.images?.[activeImage] ? (
-                  <img
+                  <ProductImage
                     src={optimizedImage(product.images[activeImage], 800)}
                     alt={product.name}
-                    className={`h-full w-full ${
-                      product.category === 'contacto' ? 'object-contain p-6' : 'object-cover'
-                    }`}
+                    containPadding="p-6"
+                    className="h-full w-full"
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-sage-300">
@@ -103,13 +103,12 @@ function ProductDetail() {
                         i === activeImage ? 'border-sage-600' : 'border-transparent'
                       }`}
                     >
-                      <img
+                      <ProductImage
                         src={optimizedImage(img, 100)}
                         alt=""
                         loading="lazy"
-                        className={`h-full w-full ${
-                          product.category === 'contacto' ? 'object-contain p-1 bg-white' : 'object-cover'
-                        }`}
+                        containPadding="bg-white p-1"
+                        className="h-full w-full"
                       />
                     </button>
                   ))}
