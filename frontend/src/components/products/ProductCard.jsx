@@ -8,6 +8,7 @@ import { optimizedImage } from '../../lib/cloudinaryTransform.js';
 import { createPaymentPreference } from '../../services/paymentService.js';
 import { toastError } from '../../lib/toast.js';
 import BuyerInfoModal from './BuyerInfoModal.jsx';
+import ProductImage from './ProductImage.jsx';
 
 const categoryLabels = {
   sol: 'Anteojos para sol',
@@ -54,13 +55,12 @@ function ProductCard({ product }) {
       <Link to={`/productos/${product._id}`} className="block overflow-hidden bg-white">
         <div className="aspect-square w-full overflow-hidden">
           {product.images?.[0] ? (
-            <img
+            <ProductImage
               src={optimizedImage(product.images[0], 500)}
               alt={product.name}
               loading="lazy"
-              className={`h-full w-full transition duration-500 ease-out group-hover:scale-105 ${
-                product.category === 'contacto' ? 'object-contain p-4' : 'object-cover'
-              }`}
+              containPadding="p-4"
+              className="h-full w-full transition duration-500 ease-out group-hover:scale-105"
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center text-sage-300">
